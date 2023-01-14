@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Domains.Dtos.Member
+namespace TUF.Domains.Dtos
 {
     public class LoginDto
     {
