@@ -1,22 +1,29 @@
+using Autofac.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using TUF.Api.Configurations;
 
-string CorsName = "TufCors";
+//string CorsName = "TufCors";
+string CorsPolicy = nameof(CorsPolicy);
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllersWithViews();
 
-builder.Services.AddRazorPages();
+builder.Host.AddConfigurations();
+builder.Services.AddControllersWithViews();
+builder.Services.AddApplication();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); 
+builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(
     CookieAuthenticationDefaults.AuthenticationScheme
 )
 .AddCookie();
 
+builder.Services.AddApiVersioning();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(CorsName,
+    options.AddPolicy(CorsPolicy,
     builder =>
     {
         builder
@@ -42,15 +49,17 @@ else
     app.UseHsts();
 }
 
-app.UseCors(CorsName); //CORS
-app.UseHttpsRedirection(); //HTTPS
-app.UseAuthentication(); //
-app.UseAuthorization();
-app.UseStaticFiles();
-app.UseBlazorFrameworkFiles();
-app.UseRouting();
-app.MapRazorPages();
-app.MapControllers();
+app.UseInfrastructure(builder.Configuration);
+//app.UseCors(CorsPolicy); //CORS
+//app.UseHttpsRedirection(); //HTTPS
+//app.UseAuthentication(); //
+//app.UseAuthorization();
+
+
+//app.MapControllers().RequireAuthorization();
+//builder.MapHealthCheck();
+//builder.MapNotifications();
+app.MapEndpoints();
 //app.MapFallbackToFile("index.html");
 app.Run();
 

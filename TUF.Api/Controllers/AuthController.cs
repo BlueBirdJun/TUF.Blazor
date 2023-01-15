@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using TUF.Domains.Dtos;
-using TUF.Domains.Dtos.Member;
+using TUF.Shared.Dtos.Member;
+using TUF.Shared.Dtos;
 using TUF.Domains.Entities;
 
-namespace TUF.Host.Controllers
+namespace TUF.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthController: ControllerBase
+    
+    public class AuthController : VersionNeutralApiController
     {
         public AuthController()
         {

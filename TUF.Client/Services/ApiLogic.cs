@@ -2,8 +2,8 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using TUF.Domains.Dtos;
-using TUF.Domains.Dtos.Member;
+using TUF.Shared.Dtos;
+using TUF.Shared.Dtos.Member;
 
 namespace TUF.Client.Services;
 public interface IApiLogic

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+		<PackageReference Include="NSwag.Annotations" Version="13.18.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TUF.Application\TUF.Application.csproj" />
+    <ProjectReference Include="..\TUF.Common\Daniel.Common.csproj" />
+    <ProjectReference Include="..\TUF.Domains\TUF.Domains.csproj" />
+    <ProjectReference Include="..\TUF.Nugets\TUF.Nugets.csproj" />
+    <ProjectReference Include="..\TUF.Shared\TUF.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\" />
+    <Folder Include="Common\" />
+  </ItemGroup>
+
+</Project>

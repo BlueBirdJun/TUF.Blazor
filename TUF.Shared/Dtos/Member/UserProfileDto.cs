@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Domains.Dtos.Member
+namespace TUF.Shared.Dtos.Member
 {
     public class UserProfileDto
     {

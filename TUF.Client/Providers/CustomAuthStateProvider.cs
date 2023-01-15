@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
-using TUF.Domains.Dtos.Member;
+using TUF.Shared.Dtos.Member;
 
 namespace TUF.Client.Providers;
 
