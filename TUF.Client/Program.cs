@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TUF.Client;
+using TUF.Client.Areas.Identity;
 using TUF.Client.Handler;
 using TUF.Client.Providers;
 using TUF.Client.Services;
@@ -22,11 +23,13 @@ builder.Services
 builder.Services.AddScoped<CookieHandler>();
 
 builder.Services.AddHttpClient("API", options => {
-    options.BaseAddress = new Uri("https://localhost:7199/");
+    options.BaseAddress = new Uri("https://localhost:7008/");
+    
 })
 .AddHttpMessageHandler<CookieHandler>();
 
 builder.Services.AddScoped<IApiLogic, ApiLogic>();
+
 
 var host = builder.Build();
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

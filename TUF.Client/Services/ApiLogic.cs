@@ -26,7 +26,7 @@ public class ApiLogic:IApiLogic
         var client = _httpClientFactory.CreateClient("API");
         string payload = JsonSerializer.Serialize(login);
         var content = new StringContent(payload, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("/Auth/login", content);
+        var response = await client.PostAsync("Api/Auth/login", content);
         if (response.IsSuccessStatusCode)
         {
             return "Success";
@@ -40,7 +40,7 @@ public class ApiLogic:IApiLogic
     public async Task<(string Message, UserProfileDto? UserProfile)> UserProfileAsync()
     {
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.GetAsync("/Auth/user-profile");
+        var response = await client.GetAsync("Api/Auth/user-profile");
         if (response.IsSuccessStatusCode)
         {
             return ("Success", await response.Content.ReadFromJsonAsync<UserProfileDto>());
@@ -61,7 +61,7 @@ public class ApiLogic:IApiLogic
     public async Task<string> LogoutAsync()
     {
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.PostAsync("/Auth/logout", null);
+        var response = await client.PostAsync("Api/Auth/logout", null);
         if (response.IsSuccessStatusCode)
         {
             return "Success";
