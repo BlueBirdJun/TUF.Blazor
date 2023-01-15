@@ -30,8 +30,6 @@ builder.Services.AddHttpClient("API", options => {
 
 builder.Services.AddScoped<IApiLogic, ApiLogic>();
 
-
-var host = builder.Build();
-//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+var host = builder.Build(); 
 
 await host.RunAsync();
