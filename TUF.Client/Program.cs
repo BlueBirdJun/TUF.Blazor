@@ -2,6 +2,8 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor;
+using MudBlazor.Services;
 using TUF.Client;
 using TUF.Client.Areas.Identity;
 using TUF.Client.Handler;
@@ -21,6 +23,15 @@ builder.Services
 .AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 builder.Services.AddScoped<CookieHandler>();
+
+builder.Services.AddMudServices(configuration =>
+{
+    configuration.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+    configuration.SnackbarConfiguration.HideTransitionDuration = 100;
+    configuration.SnackbarConfiguration.ShowTransitionDuration = 100;
+    configuration.SnackbarConfiguration.VisibleStateDuration = 3000;
+    configuration.SnackbarConfiguration.ShowCloseIcon = false;
+});
 
 builder.Services.AddHttpClient("API", options => {
     options.BaseAddress = new Uri("https://localhost:7008/");
