@@ -15,6 +15,13 @@ Welcome to your new app.
 
 @code {
     protected string mes = "ddd";
+
+    protected override Task OnInitializedAsync()
+    {
+        Snackbar.Add("오예", Severity.Info);
+        return base.OnInitializedAsync();
+    }
+
     private async Task  GetProfile()
     {
         mes = "cccc";
