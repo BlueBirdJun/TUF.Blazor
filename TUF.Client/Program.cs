@@ -24,6 +24,7 @@ builder.Services
 
 builder.Services.AddScoped<CookieHandler>();
 
+
 builder.Services.AddMudServices(configuration =>
 {
     configuration.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
