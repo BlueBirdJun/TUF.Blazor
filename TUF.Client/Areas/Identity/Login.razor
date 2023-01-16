@@ -1,9 +1,48 @@
 ﻿@page "/login"
-@inject IApiLogic _apiLogic
-@inject AuthenticationStateProvider _authStateProvider
-@inject NavigationManager _navigationManager
-@inject ILocalStorageService _localStorageService;
+@attribute [AllowAnonymous]
 
+
+
+<div class="d-flex justify-center">
+    <img src="full-stack-hero-logo.png" Style="height:120px" />
+</div>
+
+<div class="fsh-center-text">
+    <MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
+    <MudText>
+        안녕
+    </MudText>
+</div>
+
+<EditForm Model="@loginModel" OnValidSubmit="SubmitAsync">
+    <MudGrid>
+        <DataAnnotationsValidator />
+        <CustomValidation @ref="_customValidation" />
+        <MudItem xs="12">
+            <MudTextField T="string" Label="EMAIL" Variant="Variant.Outlined" @bind-Value="loginModel.Email"
+                          For="@(() => loginModel.Email)" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField Label="PASSWORD" Variant="Variant.Outlined" @bind-Value="loginModel.Password"
+                          For="@(() => loginModel.Password)" InputType="@_passwordInput" Adornment="Adornment.End"
+                          AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
+        </MudItem>
+        
+
+        <MudItem xs="12" md="6">
+            <MudButton StartIcon="@Icons.Filled.AppRegistration" Link="/users/self-register">등록</MudButton>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudButton StartIcon="@Icons.Filled.LockReset" Link="/account/forgot-password">비번찾기</MudButton>
+        </MudItem>
+        <MudItem xs="12" Class="d-flex justify-center">
+            <MudButton ButtonType="ButtonType.Submit" Disabled="BusySubmitting" Variant="Variant.Filled"
+                       Color="Color.Primary" Size="Size.Large" StartIcon="@Icons.Filled.Login" Style="width: 100%;">로그인</MudButton>
+        </MudItem>
+        
+    </MudGrid>
+</EditForm>
+@*
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <legend>User Login</legend>
@@ -47,17 +86,4 @@
         </div>
     </div>
 </div>
-
-@code {
-    private LoginDto loginModel = new LoginDto();
-
-    private async Task UserLogin()
-    {
-        var message = await _apiLogic.LoginAsync(loginModel);
-        if (message == "Success")
-        {
-            await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
-            _navigationManager.NavigateTo("/", true);
-        }
-    }
-}
+ *@

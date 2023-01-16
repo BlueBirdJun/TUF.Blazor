@@ -2,8 +2,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using TUF.Database.DbContexts;
+using TUF.Database.Identity.Models;
 using TUF.Domains.Infrastructure;
 
 namespace TUF.Api.Configurations
@@ -149,6 +154,34 @@ namespace TUF.Api.Configurations
                 //.AddRequestLogging(config)
                 .AddRouting(options => options.LowercaseUrls = true);
                 //.AddServices();
+        }
+
+        public static void AddPersistenceContexts(this IServiceCollection services, IConfiguration configuration)
+        {   
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetSection("DatabaseSettings:IdentityConnection").Value), ServiceLifetime.Transient);
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetSection("DatabaseSettings:ApplicationConnection").Value), ServiceLifetime.Transient);
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                //options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireDigit = false;
+                //options.SignIn.RequireConfirmedAccount = false;
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequiredLength = 6;                
+                //options.Password.RequireUppercase = false;
+                //options.Password.RequireLowercase = false;
+                ////options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequiredUniqueChars = 1;
+                //options.Password.RequireDigit = false;
+                //options.Password.req = false;
+                options.User.AllowedUserNameCharacters = null;
+            }).AddEntityFrameworkStores<IdentityContext>();
+
         }
     }
 

@@ -17,7 +17,10 @@
 @using TUF.Shared.Dtos
 @using TUF.Client.Components.Notifications
 @using MudBlazor
+@using Microsoft.Extensions.Localization
+@using TUF.Client.Components.Common
 
+@attribute [Authorize]
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar

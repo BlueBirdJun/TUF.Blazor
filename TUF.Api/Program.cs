@@ -19,7 +19,7 @@ builder.Services.AddAuthentication(
 )
 .AddCookie();
 
-builder.Services.AddApiVersioning();
+builder.Services.AddPersistenceContexts(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -54,8 +54,6 @@ app.UseInfrastructure(builder.Configuration);
 //app.UseHttpsRedirection(); //HTTPS
 //app.UseAuthentication(); //
 //app.UseAuthorization();
-
-
 //app.MapControllers().RequireAuthorization();
 //builder.MapHealthCheck();
 //builder.MapNotifications();
