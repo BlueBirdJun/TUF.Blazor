@@ -1,7 +1,10 @@
 using Autofac.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Serilog;
 using TUF.Api.Configurations;
+using TUF.Application;
+using TUF.Database.DbContexts;
 
 //string CorsName = "TufCors";
 string CorsPolicy = nameof(CorsPolicy);
@@ -9,6 +12,12 @@ string CorsPolicy = nameof(CorsPolicy);
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.AddConfigurations();
+builder.Host.UseSerilog((_, config) =>
+{
+    config.WriteTo.Console()
+    .ReadFrom.Configuration(builder.Configuration);
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplication();
 
@@ -19,7 +28,9 @@ builder.Services.AddAuthentication(
 )
 .AddCookie();
 
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddPersistenceContexts(builder.Configuration);
+builder.Services.AddApplicationInfrastructure(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -39,7 +50,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging();
+    //app.UseWebAssemblyDebugging();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -59,6 +70,9 @@ app.UseInfrastructure(builder.Configuration);
 //builder.MapNotifications();
 app.MapEndpoints();
 //app.MapFallbackToFile("index.html");
+
+ 
+
 app.Run();
 
 

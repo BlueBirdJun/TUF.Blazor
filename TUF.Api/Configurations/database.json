@@ -1,7 +1,7 @@
 {
   "DatabaseSettings": {
     "DBProvider": "mssql",
-    "ApplicationConnection": "Server=DESKTOP-PN83M80,1433;Initial Catalog=TUF_DB;Persist Security Info=False;User ID=daniel;Password=abcde123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-    "IdentityConnection": "Server=DESKTOP-PN83M80,1433;Initial Catalog=TUF_DB;Persist Security Info=False;User ID=daniel;Password=abcde123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    "ApplicationConnection": "Server=DESKTOP-PN83M80;Initial Catalog=TUF_DB;Persist Security Info=False;User ID=daniel;Password=abcde123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;",
+    "IdentityConnection":    "Server=DESKTOP-PN83M80;Initial Catalog=TUF_DB;Persist Security Info=False;User ID=daniel;Password=abcde123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
   }
 }

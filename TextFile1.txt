@@ -1,0 +1,300 @@
+https://codewithmukesh.com/blog/aspnet-core-hero-boilerplate-quick-start/
+
+
+Microsoft.EntityFrameworkCore.Design  front 프로젝트에 추가하고
+패키지 관리 콘솔에서 
+context 프로젝트 선택
+최초
+add-migration initialIdentity1 -context IdentityContext
+
+add-migration initial2 -context ApplicationDbContext
+
+add-migration initial67 -context ApplicationDbContext
+add-migration initialIdentity1 -context IdentityContext
+
+
+패키지 관리자 콘솔에서 기본프로젝트를 Repository로 변경 
+add-migration initial2 -context ApplicationDbContext
+add-migration initialIdentity1 -context IdentityContext
+add-migration initialIdentity1 -context IdentityContext
+
+update-database -context IdentityContext
+update-database -context ApplicationDbContext
+
+//관심있는 기업 
+//내프로필 열람기업
+
+
+https://aspdotnet.tistory.com/2367
+
+https://localhost:5001/contents/info/page?pid=F5317BB9-DECE-43A0-9AE3-87CFE51450C0
+/https://sweetalert2.github.io/#input-types
+
+https://www.jqueryscript.net/demo/Tagging-System-Autocomplete-Amsify-Suggestags/
+
+IMAGE TAGG
+https://www.jqueryscript.net/other/Lightweight-Image-Tagging-Plugin-For-jQuery-Taggd.html
+
+
+https://www.jqueryscript.net/demo/jQuery-Plugin-For-Interactive-Image-Notes-Interactive-Image/
+https://mobiscroll.com/pricing
+
+이미등록된 회원  AlreadyExistUser
+아이디찾기      	PhoneNumberValidationID
+아이디찾기 완료  	FindCompleteID
+
+이용약관			Privacy
+개인정보이용     	TermsAndConditions
+3개월			UtilltyPasswordChange3Month	
+
+마이프로필(개인회원)  PersonMypage
+마이프로필(기업회원)	CompanyMyPage
+
+
+https://semantic-ui.com/modules/popup.html#/examples
+
+https://api-sms.cloud.toast.com/sms/v2.1/appKeys/i0t83A0l6CmzFGIH/sender/sms
+https://docs.toast.com/ko/Notification/SMS/ko/api-guide/
+
+{
+    "body": "본문",
+    "sendNo": "01072553030",
+    "recipientList": [{
+            "internationalRecipientNo": "01088757268"
+        }
+    ]
+}
+
+
+process.env.IAMPORT_REST_API_KEY = '9810209417859392';
+process.env.IAMPORT_REST_API_SECRET = 'RAcCifwd8FfqIdRRYInX1jcsAw22SfeKQrm8GTmOyBfgP68NPvKROXjotmqmBF6r6sAMlXBTyRanYibN';
+async getToken() {
+    if (token && expiredAt > new Date()) return token;
+    const { response } = await request.post('https://api.iamport.kr/users/getToken', {
+      body: { imp_key: process.env.IAMPORT_REST_API_KEY, imp_secret: process.env.IAMPORT_REST_API_SECRET },
+      json: true,
+    });
+    token = response.access_token;
+    expiredAt = new Date(Date.now() + (response.expired_at - response.now) - (1000 * 5));
+    return token;
+  },
+  async payment(paymentId) {
+    const access_token = await this.getToken();
+    const reply = await request.get(`https://api.iamport.kr/payments/${paymentId}`, { headers: { Authorization: access_token }, json: true });
+    return reply.response;
+  },
+  async cancel(paymentId, { reason, amount } = {}) {
+    const access_token = await this.getToken();
+    const reply = await request.post('https://api.iamport.kr/payments/cancel', {
+    headers: { Authorization: access_token }, json: true, body: { imp_uid: paymentId, reason, amount }
+    });
+    return reply.response;
+  },
+
+
+
+프로필사진 
+자격증사진 
+
+**이미지 테이블 따로 저장
+
+간단소개
+생년월일
+약관 유효 기간
+3년,1년 탈퇴시 파기
+
+탈퇴메시지
+
+마케팅정보수신 
+ 이메일 , SMS ,푸쉬 
+
+ emailok
+ smsok
+ pushok
+
+ firemessage
+ birthday
+ introduce
+ ValidPeriod
+
+
+성격- ability
+	기사만
+	기사+장비
+	장비
+	장비수리
+	지역 + 서울,경기 ,인천,부산 대구 ~
+
+	tblAbility
+
+	userid
+	code
+	desc
+	useyn
+	--authoryn
+
+	insert code  
+
+
+ tblimage 
+
+	userid 
+	memberimage
+
+	userid
+	
+	kind
+	ImagePath
+	ImageName
+	useyn 
+
+
+
+
+라이센스 
+  자격증 
+  면허증
+  허가증
+ 
+
+
+탈퇴 메시지 **
+
+
+주문내역 
+  주소 번호
+  주문상태
+  주문상품 코드
+
+  업소정보
+
+
+  신청내역
+      업소명
+
+
+	  신청 접수 완료
+
+
+
+
+
+	신청내역
+
+	업체명
+	신청일 ~ 
+	신청구분
+	처리상태
+
+
+
+	건설기계 면허증 
+	장비 명판
+	사업자 등록증 
+
+
+	장비 
+ContructLicence
+	-건설 기계 면허증
+	이미지 
+	제호 
+	성명
+	발급일자
+	적성검사 유효기간 
+	소지면허
+ToolNamePlate
+	-장비명판 등록 
+	건설기계명 
+	형식(모델)
+	차대일련번호
+
+CompanByLicense
+	-사업자등록증 
+	상호
+	등록번호
+	성명
+	개업연원일
+	사업장 소재지
+	업태/종목
+	이메일주소 
+	핸드폰번호
+	팩스번호
+
+BankInfo
+	-
+	통장사본
+	은행명
+	계좌명 
+
+
+	장비추가
+
+
+	* FAQ검색시 카테고리 검색 손봐야 함 
+
+
+	묻고 답하기 
+	묻고 답하기 페이징
+
+	FAQ 검색 
+	회원정보수정
+	특수게시판 수정 
+
+
+	https://blog.naver.com/csaiur/10083788708
+	https://ckeditor.com/docs/ckfinder/ckfinder3-net/quickstart.html
+
+	https://www.programmerall.com/article/820529046/
+
+
+	사업자번호
+	https://www.data.go.kr/iim/api/selectAPIAcountView.do
+
+	https://www.data.go.kr/images/biz/swagger/swagger
+	일반 인증키
+(Encoding)	
+F5SuCFVs%2FXsJNbql5Heo0gLRsmVht7M%2Fqb6YTEHWd3XTLDFq%2FOTkMPr1IOJVvcokMyYT0jtB3xuO7IXMcD5%2BOw%3D%3D
+일반 인증키
+(Decoding)	
+F5SuCFVs/XsJNbql5Heo0gLRsmVht7M/qb6YTEHWd3XTLDFq/OTkMPr1IOJVvcokMyYT0jtB3xuO7IXMcD5+Ow==
+
+API 키
+
+AIzaSyCrRKFlQbSR086T8VhDLKWduHDAU_UJymU
+
+OAuth 클라이언트
+
+16785754273-tpdhq741p5pohlp35chcdcjp6tl7ddll.apps.googleusercontent.com
+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
+
+
+
+640382407204-o7gp2dffd6fs3oasp2lakcold7sarpsb.apps.googleusercontent.com
+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
+
+
+
+패치콜(안심번호) 10개회선 
+https://www.eney.co.kr/
+아이디 themodoo
+비번 themodoo2022!!@
+
+nF5yejRqtBz82P7q6keEZHfKmwQXcuWa
+
+에네이		05073480254		2022-02-17	2025-02-17
+에네이		05073480257		2022-02-17	2025-02-17
+에네이		05073480255		2022-02-17	2025-02-17
+에네이		05073480256		2022-02-17	2025-02-17
+에네이		05073480253		2022-02-17	2025-02-17
+에네이		05073480258		2022-02-17	2025-02-17
+에네이		05073480259		2022-02-17	2025-02-17
+에네이		05073480260		2022-02-17	2025-02-17
+에네이		05073480261		2022-02-17	2025-02-17
+에네이		05073480262		2022-02-17	2025-02-17
+
+
+https://eney.co.kr:4005/apis/v1/050/themodoo/05073480254?tokenKey=nF5yejRqtBz82P7q6keEZHfKmwQXcuWa&rcvNo=07080648661&name=%EB%8D%94%EB%AA%A8%EB%91%90&dongYn=N&sms=01088757268&smsYn=Y
+
+www.toast.com
+아이디 ceo@themodoo.com
+비번 modoo2022!!!@@@

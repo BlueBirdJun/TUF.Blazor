@@ -21,13 +21,13 @@ public class GetStatsRequestHandler : IRequestHandler<GetStatsRequest, StatsDto>
     private readonly IStringLocalizer _t;
 
     public GetStatsRequestHandler(//IUserService userService, IRoleService roleService, IReadRepository<Brand> brandRepo, IReadRepository<Product> productRepo, 
-        IStringLocalizer<GetStatsRequestHandler> localizer)
+        )
     {
         //_userService = userService;
         //_roleService = roleService;
         //_brandRepo = brandRepo;
         //_productRepo = productRepo;
-        _t = localizer;
+        //_t = localizer;
     }
 
     public async Task<StatsDto> Handle(GetStatsRequest request, CancellationToken cancellationToken)

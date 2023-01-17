@@ -41,7 +41,12 @@ public partial class Login
     }
     private async Task SubmitAsync()
     {
-
+        var message = await _apiLogic.LoginAsync(loginModel);
+        if (message == "Success")
+        {
+            await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
+            _navigationManager.NavigateTo("/", true);
+        }
     }
 
     private void TogglePasswordVisibility()

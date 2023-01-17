@@ -4,14 +4,18 @@ using System.Security.Claims;
 using TUF.Shared.Dtos.Member;
 using TUF.Shared.Dtos;
 using TUF.Domains.Entities;
+using Microsoft.AspNetCore.Identity;
+using TUF.Database.Identity.Models;
 
 namespace TUF.Api.Controllers
 {
     
     public class AuthController : VersionNeutralApiController
     {
-        public AuthController()
+        private readonly UserManager<ApplicationUser> _userManager;
+        public AuthController(UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             //_cookieAuthContext = cookieAuthContext;
         }
 
@@ -35,7 +39,13 @@ namespace TUF.Api.Controllers
             var claims = new List<Claim>
                 {
                     new Claim("userid", user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(TUFClaims.Tenant, "Tenant_1"),
+                    new Claim(TUFClaims.Fullname, "Tenant_1"),
+                    new Claim(TUFClaims.Permission, "Tenant_1"),
+                    new Claim(TUFClaims.ImageUrl, "Tenant_1"),
+                    new Claim(TUFClaims.IpAddress, "Tenant_1"),
+                    new Claim(TUFClaims.Expiration, "2022-02-02")
                 };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -81,6 +91,50 @@ namespace TUF.Api.Controllers
             userProfile.Email = "kki2020@dam.net";
             userProfile.UserId = 2;
             return Ok(userProfile);
+        }
+
+        [HttpPost]
+        [Route("user")]
+        public async Task<IActionResult> GetUser()
+        {
+            var c = await _userManager.FindByEmailAsync("");
+            //await HttpContext.SignOutAsync();
+            return Ok("success");
+        }
+
+
+        [HttpPost]
+        [Route("usercreate")]
+        public async Task<IActionResult> AddUser(string email)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = "김광일",
+                Email = email,
+                FirstName = "",
+                LastName = " ",// data.useremail,
+                MemberType = "MP",
+                JoinChanel = "N",
+                NickName = "별명",
+                CreateDate = DateTime.Now,
+                BlackMessage = "a",
+                CompanyName = "회사이름",
+                CompanyNumberAutoryn = "N",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed= true,
+                TwoFactorEnabled= true,                
+            };
+            var result = await _userManager.CreateAsync(user, "abcde123");
+            if (result.Succeeded)
+            {
+                return Ok("success");
+            }
+            else
+            {
+                return Ok("fail");
+            }
+
+             
         }
 
 

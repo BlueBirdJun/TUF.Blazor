@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using Autofac.Core;
+using Daniel.Common.Services;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -7,19 +9,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using TUF.Api.Middleware;
 using TUF.Database.DbContexts;
 using TUF.Database.Identity.Models;
 using TUF.Domains.Infrastructure;
+using TUF.Shared.Services;
 
 namespace TUF.Api.Configurations
 {
-    public static class Startup
+    public static partial class Startup
     {
         private const string CorsPolicy = nameof(CorsPolicy);
 
         public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
-        {
-            
+        {  
             builder.MapControllers();//.RequireAuthorization();
             //builder.MapHealthCheck();
             //builder.MapNotifications();
@@ -37,13 +40,7 @@ namespace TUF.Api.Configurations
             return endpoints;
         }
 
-        public static IServiceCollection AddApplication(this IServiceCollection services)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            return services
-                .AddValidatorsFromAssembly(assembly)
-                .AddMediatR(assembly);
-        }
+        
 
 
         internal static ConfigureHostBuilder AddConfigurations(this ConfigureHostBuilder host)
@@ -84,105 +81,40 @@ namespace TUF.Api.Configurations
         }
 
 
-        public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
-    builder
-        //.UseRequestLocalization()
-        .UseStaticFiles()
-        //.UseSecurityHeaders(config)
-        //.UseFileStorage()
-        //.UseExceptionMiddleware()
-        .UseHttpsRedirection()
-        .UseRouting()
-        .UseCorsPolicy()
-        .UseAuthentication()
-        //.UseRouting()
-        //.UseCurrentUser()
-        //.UseMultiTenancy()
-        .UseAuthorization();
-        //.UseRequestLogging(config)
-        //.UseHangfireDashboard(config)
-        //.UseOpenApiDocumentation(config);
+        
 
         internal static IApplicationBuilder UseCorsPolicy(this IApplicationBuilder app) =>
         app.UseCors(CorsPolicy);
 
-        //internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app, IConfiguration config)
-        //{
-        //    if (config.GetValue<bool>("SwaggerSettings:Enable"))
-        //    {
-        //        app.UseOpenApi();
-        //        app.UseSwaggerUi3(options =>
-        //        {
-        //            options.DefaultModelsExpandDepth = -1;
-        //            options.DocExpansion = "none";
-        //            options.TagsSorter = "alpha";
-        //            if (config["SecuritySettings:Provider"].Equals("AzureAd", StringComparison.OrdinalIgnoreCase))
-        //            {
-        //                options.OAuth2Client = new OAuth2ClientSettings
-        //                {
-        //                    AppName = "Full Stack Hero Api Client",
-        //                    ClientId = config["SecuritySettings:Swagger:OpenIdClientId"],
-        //                    ClientSecret = string.Empty,
-        //                    UsePkceWithAuthorizationCodeGrant = true,
-        //                    ScopeSeparator = " "
-        //                };
-        //                options.OAuth2Client.Scopes.Add(config["SecuritySettings:Swagger:ApiScope"]);
-        //            }
-        //        });
-        //    }
-        //    return app;
-        //}
-
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
+        internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app, IConfiguration config)
         {
-            //MapsterSettings.Configure();
-            return services
-                .AddApiVersioning()
-                //.AddAuth(config)
-                //.AddBackgroundJobs(config)
-                //.AddCaching(config)
-                //.AddCorsPolicy(config)
-                //.AddExceptionMiddleware()
-                //.AddHealthChecks()
-                //.AddPOLocalization(config)
-                //.AddMailing(config)
-                .AddMediatR(Assembly.GetExecutingAssembly())
-                //.AddMultitenancy(config)
-                //.AddNotifications(config)
-                //.AddOpenApiDocumentation(config)
-                //.AddPersistence(config)
-                //.AddRequestLogging(config)
-                .AddRouting(options => options.LowercaseUrls = true);
-                //.AddServices();
-        }
-
-        public static void AddPersistenceContexts(this IServiceCollection services, IConfiguration configuration)
-        {   
-            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetSection("DatabaseSettings:IdentityConnection").Value), ServiceLifetime.Transient);
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetSection("DatabaseSettings:ApplicationConnection").Value), ServiceLifetime.Transient);
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            if (config.GetValue<bool>("SwaggerSettings:Enable"))
             {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                //options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequiredUniqueChars = 1;
-                options.Password.RequireDigit = false;
-                //options.SignIn.RequireConfirmedAccount = false;
-                //options.Password.RequireNonAlphanumeric = true;
-                //options.Password.RequiredLength = 6;                
-                //options.Password.RequireUppercase = false;
-                //options.Password.RequireLowercase = false;
-                ////options.Password.RequireNonAlphanumeric = true;
-                //options.Password.RequiredUniqueChars = 1;
-                //options.Password.RequireDigit = false;
-                //options.Password.req = false;
-                options.User.AllowedUserNameCharacters = null;
-            }).AddEntityFrameworkStores<IdentityContext>();
-
+                
+                //app.UseOpenApi();
+                //app.UseSwaggerUi3(options =>
+                //{
+                //    options.DefaultModelsExpandDepth = -1;
+                //    options.DocExpansion = "none";
+                //    options.TagsSorter = "alpha";
+                //    //if (config["SecuritySettings:Provider"].Equals("AzureAd", StringComparison.OrdinalIgnoreCase))
+                //    //{
+                //    //    options.OAuth2Client = new OAuth2ClientSettings
+                //    //    {
+                //    //        AppName = "Full Stack Hero Api Client",
+                //    //        ClientId = config["SecuritySettings:Swagger:OpenIdClientId"],
+                //    //        ClientSecret = string.Empty,
+                //    //        UsePkceWithAuthorizationCodeGrant = true,
+                //    //        ScopeSeparator = " "
+                //    //    };
+                //    //    options.OAuth2Client.Scopes.Add(config["SecuritySettings:Swagger:ApiScope"]);
+                //    //}
+                //});
+            }
+            return app;
         }
+
+
     }
 
 
