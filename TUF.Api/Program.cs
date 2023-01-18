@@ -19,14 +19,14 @@ builder.Host.UseSerilog((_, config) =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddApplication();
+builder.Services.AddApplication(); //mediat 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication(
-    CookieAuthenticationDefaults.AuthenticationScheme
-)
-.AddCookie();
+//builder.Services.AddAuthentication(
+//    CookieAuthenticationDefaults.AuthenticationScheme
+//)
+//.AddCookie();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddPersistenceContexts(builder.Configuration);
