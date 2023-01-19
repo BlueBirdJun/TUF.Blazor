@@ -1,9 +1,7 @@
 
 {
   "name": "SpyOut.App",
-  "short_name": "SpyOut.App",
-  "name": "Blazor WebAssembly Boilerplate",
-  "short_name": "Blazor WebAssembly Boilerplate",
+  "short_name": "SpyOut.App",  
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -9,7 +9,7 @@ using TUF.Database.Identity.Models;
 
 namespace TUF.Api.Controllers
 {
-    
+
     public class AuthController : VersionNeutralApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -40,10 +40,9 @@ namespace TUF.Api.Controllers
                 {
                     new Claim("userid", user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(TUFClaims.Tenant, "Tenant_1"),
-                    new Claim(TUFClaims.Fullname, "Tenant_1"),
+                    
                     new Claim(TUFClaims.Permission, "Tenant_1"),
-                    new Claim(TUFClaims.ImageUrl, "Tenant_1"),
+                    
                     new Claim(TUFClaims.IpAddress, "Tenant_1"),
                     new Claim(TUFClaims.Expiration, "2022-02-02")
                 };
@@ -109,10 +108,10 @@ namespace TUF.Api.Controllers
         {
             var user = new ApplicationUser
             {
-                UserName = "김광일",
+                UserName = "userid1",
                 Email = email,
-                FirstName = "",
-                LastName = " ",// data.useremail,
+                FirstName = "kim",
+                LastName = "wangil",// data.useremail,
                 MemberType = "MP",
                 JoinChanel = "N",
                 NickName = "별명",
@@ -122,19 +121,31 @@ namespace TUF.Api.Controllers
                 CompanyNumberAutoryn = "N",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed= true,
-                TwoFactorEnabled= true,                
+                TwoFactorEnabled= true,    
+                IsActive = true,
+
             };
-            var result = await _userManager.CreateAsync(user, "abcde123");
-            if (result.Succeeded)
+            try
             {
-                return Ok("success");
+                var r1= await _userManager.FindByEmailAsync("kki2020@daum.net");
+                
+                var result = await _userManager.CreateAsync(user, "abcde123");
+                if (result.Succeeded)
+                {
+                    return Ok("success");
+                }
+                else
+                {
+                    return Ok("fail");
+                }
             }
-            else
-            {
-                return Ok("fail");
+            catch (Exception ex) {
+                string s = ex.Message;
             }
 
-             
+
+
+            return Ok("fail");
         }
 
 

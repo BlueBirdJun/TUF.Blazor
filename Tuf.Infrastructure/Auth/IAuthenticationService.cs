@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Shared.Infrastructure.Auth;
+namespace TUF.Infrastructure.Auth;
 
 public interface IAuthenticationService
 {

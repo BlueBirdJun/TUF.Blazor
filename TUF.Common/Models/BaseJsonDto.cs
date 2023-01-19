@@ -8,12 +8,12 @@ namespace Knus.Common.Models
 {
     public class BaseJsonDto<T>
     {
-        public bool Success { get; set; }
-        public bool hasError { get; set; }
-        public bool hasAlert { get; set; }
-        public string Message { get; set; }
-        public string html { get; set; }
-        public T Result { get; set; }
-        public int TotalCount { get; set; }
+        public bool Success { get; set; } = default;
+        public bool hasError { get; set; } = default;
+        public bool hasAlert { get; set; } = default;
+        public string Message { get; set; } = default;
+        public string html { get; set; } = default;
+        public T Result { get; set; } 
+        public int TotalCount { get; set; } = default;
     }
 }

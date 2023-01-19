@@ -9,7 +9,7 @@ namespace TUF.Api.Controllers.Dashboard;
 public class DashboardController : VersionedApiController
 {
     [HttpGet]
-    [MustHavePermission(TUFAction.View, TUFResource.Dashboard)]
+    //[MustHavePermission(TUFAction.View, TUFResource.Dashboard)]
     [OpenApiOperation("Get statistics for the dashboard.", "")]
     public Task<StatsDto> GetAsync()
     {

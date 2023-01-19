@@ -2,18 +2,28 @@
 using Daniel.Common.Services;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
+using NJsonSchema.Generation.TypeMappers;
+using NSwag;
+using NSwag.AspNetCore;
+using NSwag.Generation.Processors.Security;
 using System.Reflection;
 using TUF.Api.Middleware;
 using TUF.Database.DbContexts;
 using TUF.Database.Identity.Models;
-using TUF.Domains.Infrastructure;
+using TUF.Infrastructure.Notifications;
+using TUF.Infrastructure.OpenApi;
 using TUF.Shared.Services;
+using ZymLabs.NSwag.FluentValidation;
 
 namespace TUF.Api.Configurations
 {
@@ -23,11 +33,12 @@ namespace TUF.Api.Configurations
 
         public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
         {  
-            builder.MapControllers();//.RequireAuthorization();
+            builder.MapControllers();//.RequireAuthorization();            
             //builder.MapHealthCheck();
             //builder.MapNotifications();
             return builder;
         }
+
         private static IEndpointConventionBuilder MapHealthCheck(this IEndpointRouteBuilder endpoints) =>
         endpoints.MapHealthChecks("/api/health").RequireAuthorization();
 
@@ -39,9 +50,7 @@ namespace TUF.Api.Configurations
             });
             return endpoints;
         }
-
-        
-
+         
 
         internal static ConfigureHostBuilder AddConfigurations(this ConfigureHostBuilder host)
         {
@@ -80,41 +89,112 @@ namespace TUF.Api.Configurations
             return host;
         }
 
-
-        
-
+         
         internal static IApplicationBuilder UseCorsPolicy(this IApplicationBuilder app) =>
         app.UseCors(CorsPolicy);
+
+
+        public static IServiceCollection AddVersionedApiExplorer(this IServiceCollection services, Action<ApiExplorerOptions> setupAction)
+        {
+            AddApiExplorerServices(services);
+            services.Configure(setupAction);
+            return services;
+        }
+        static void AddApiExplorerServices(IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+            services.AddMvcCore().AddApiExplorer();            
+        }
+        internal static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services, IConfiguration config)
+        {            
+            var settings = config.GetSection(nameof(TUF.Infrastructure.OpenApi.SwaggerSettings)).Get<TUF.Infrastructure.OpenApi.SwaggerSettings>();
+            if (settings.Enable)
+            {
+                services.AddVersionedApiExplorer(o => o.SubstituteApiVersionInUrl = true);
+                services.AddEndpointsApiExplorer();
+                services.AddOpenApiDocument((document, serviceProvider) =>
+                {
+                    document.PostProcess = doc =>
+                    {
+                        doc.Info.Title = settings.Title;
+                        doc.Info.Version = settings.Version;
+                        doc.Info.Description = settings.Description;
+                        doc.Info.Contact = new()
+                        {
+                            Name = settings.ContactName,
+                            Email = settings.ContactEmail,
+                            Url = settings.ContactUrl
+                        };
+                        doc.Info.License = new()
+                        {
+                            Name = settings.LicenseName,
+                            Url = settings.LicenseUrl
+                        };
+                    };
+
+                    document.AddSecurity(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Description = "Input your Bearer token to access this API",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Type = OpenApiSecuritySchemeType.Http,
+                        Scheme = JwtBearerDefaults.AuthenticationScheme,
+                        BearerFormat = "JWT",
+                    });
+
+                    document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor());
+                    document.OperationProcessors.Add(new SwaggerGlobalAuthProcessor());
+
+                    document.TypeMappers.Add(new PrimitiveTypeMapper(typeof(TimeSpan), schema =>
+                    {
+                        schema.Type = NJsonSchema.JsonObjectType.String;
+                        schema.IsNullableRaw = true;
+                        schema.Pattern = @"^([0-9]{1}|(?:0[0-9]|1[0-9]|2[0-3])+):([0-5]?[0-9])(?::([0-5]?[0-9])(?:.(\d{1,9}))?)?$";
+                        schema.Example = "02:00:00";
+                    }));
+
+                    document.OperationProcessors.Add(new SwaggerHeaderAttributeProcessor());
+
+                    var fluentValidationSchemaProcessor = serviceProvider.CreateScope().ServiceProvider.GetService<FluentValidationSchemaProcessor>();
+                    document.SchemaProcessors.Add(fluentValidationSchemaProcessor);
+                });
+                services.AddScoped<FluentValidationSchemaProcessor>();
+            }
+
+            return services;
+        }
+
 
         internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app, IConfiguration config)
         {
             if (config.GetValue<bool>("SwaggerSettings:Enable"))
-            {
-                
-                //app.UseOpenApi();
-                //app.UseSwaggerUi3(options =>
-                //{
-                //    options.DefaultModelsExpandDepth = -1;
-                //    options.DocExpansion = "none";
-                //    options.TagsSorter = "alpha";
-                //    //if (config["SecuritySettings:Provider"].Equals("AzureAd", StringComparison.OrdinalIgnoreCase))
-                //    //{
-                //    //    options.OAuth2Client = new OAuth2ClientSettings
-                //    //    {
-                //    //        AppName = "Full Stack Hero Api Client",
-                //    //        ClientId = config["SecuritySettings:Swagger:OpenIdClientId"],
-                //    //        ClientSecret = string.Empty,
-                //    //        UsePkceWithAuthorizationCodeGrant = true,
-                //    //        ScopeSeparator = " "
-                //    //    };
-                //    //    options.OAuth2Client.Scopes.Add(config["SecuritySettings:Swagger:ApiScope"]);
-                //    //}
-                //});
+            {    
+                app.UseOpenApi();
+                app.UseSwaggerUi3(options =>
+                {
+                    options.DefaultModelsExpandDepth = -1;
+                    options.DocExpansion = "none";
+                    options.TagsSorter = "alpha";
+                    //if (config["SecuritySettings:Provider"].Equals("AzureAd", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    options.OAuth2Client = new OAuth2ClientSettings
+                    {
+                        AppName = "Full Stack Hero Api Client",
+                        ClientId = config["SecuritySettings:Swagger:OpenIdClientId"],
+                        ClientSecret = string.Empty,
+                        UsePkceWithAuthorizationCodeGrant = true,
+                        ScopeSeparator = " "
+                    };
+                    options.OAuth2Client.Scopes.Add(config["SecuritySettings:Swagger:ApiScope"]);
+                    //}
+                });
             }
             return app;
         }
-
-
+         
     }
 
 

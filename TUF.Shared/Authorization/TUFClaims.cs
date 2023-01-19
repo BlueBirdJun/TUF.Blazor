@@ -8,11 +8,20 @@ namespace TUF.Shared.Authorization;
 
 public static class TUFClaims
 {
-    public const string Tenant = "tenant";
-    public const string Fullname = "fullName";
+
+    public const string FirstName = "FirstName";
+    public const string LastName = "LastName";
+    public const string FullName = "FullName";
+    public const string ProfilePicture = "ProfilePicture";
+    public const string MemberType = "MemberType";
+    public const string JoinChanel = "JoinChanel";
+    public const string NickName = "NickName";
+    public const string CompanyName = "CompanyName";
+    public const string CompanyNumberAutoryn = "CompanyNumberAutoryn";
+    public const string UserPhoneNumberYn = "UserPhoneNumberYn";
+    public const string CreateDate = "CreateDate";
+    public const string Expiration = "Expiration";
+    public const string IpAddress = "IpAddress";
     public const string Permission = "permission";
-    public const string ImageUrl = "image_url";
-    public const string IpAddress = "ipAddress";
-    public const string Expiration = "exp";
-    
+
 }

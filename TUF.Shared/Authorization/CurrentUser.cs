@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TUF.Shared.Authorization;
-
+#nullable disable
+#pragma warning disable CS8632, IDE0060
 public interface ICurrentUser
 {
     string? Name { get; }
@@ -15,7 +16,7 @@ public interface ICurrentUser
 
     string? GetUserEmail();
 
-    string? GetTenant();
+     
 
     bool IsAuthenticated();
 
@@ -60,8 +61,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserInitializer
     public IEnumerable<Claim>? GetUserClaims() =>
         _user?.Claims;
 
-    public string? GetTenant() =>
-        IsAuthenticated() ? _user?.GetTenant() : string.Empty;
+    
 
     public void SetCurrentUser(ClaimsPrincipal user)
     {

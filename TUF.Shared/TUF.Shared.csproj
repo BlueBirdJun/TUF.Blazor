@@ -6,17 +6,24 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;SYSLIB0022;CS8601;CS8632;CS8602;CS0618;CS1998;CS8601;CS0168</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;SYSLIB0022;CS8601;CS8632;CS8602;CS0618;CS1998;CS8601;CS0168</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
+    <Compile Remove="Authorization\MustHavePermissionAttribute.cs" />
+    <Compile Remove="Authorization\TUFAction.cs" />
     <Compile Remove="Authorization\TUFPermissions.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Authorization\TUFPermissions.cs" />
-  </ItemGroup>
+  
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.2" />
   </ItemGroup>
 
 </Project>

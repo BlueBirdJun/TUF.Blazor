@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TUF.Application\TUF.Application.csproj" />
     <ProjectReference Include="..\TUF.Client\TUF.Client.csproj" />
     <ProjectReference Include="..\TUF.Common\Daniel.Common.csproj" />
@@ -25,6 +29,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="MudBlazor" Version="6.1.7" /> 
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		 
 	</ItemGroup>
 </Project>

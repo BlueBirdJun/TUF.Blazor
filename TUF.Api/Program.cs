@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Serilog;
 using TUF.Api.Configurations;
+using TUF.Api.Controllers;
 using TUF.Application;
 using TUF.Database.DbContexts;
+
+[assembly: ApiConventionType(typeof(TUFApiConventions))]
 
 //string CorsName = "TufCors";
 string CorsPolicy = nameof(CorsPolicy);
@@ -22,7 +25,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplication(); //mediat 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 //builder.Services.AddAuthentication(
 //    CookieAuthenticationDefaults.AuthenticationScheme
 //)
@@ -48,17 +51,17 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    //app.UseWebAssemblyDebugging();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-else
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    //app.UseWebAssemblyDebugging();
+//    //app.UseSwagger();
+//    //app.UseSwaggerUI();
+//}
+//else
+//{
+//    app.UseExceptionHandler("/Error");
+//    app.UseHsts();
+//}
 
 app.UseInfrastructure(builder.Configuration);
 //app.UseCors(CorsPolicy); //CORS

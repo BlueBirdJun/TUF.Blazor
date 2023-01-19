@@ -17,6 +17,8 @@ using Knus.Common.Models;
 
 namespace Knus.Common.Services
 {
+#nullable disable
+#pragma warning disable CS8632, IDE0060
     public class WebProxyService<T> : IWebProxyService<T>
     {
 

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Shared.Identitys
+namespace TUF.Shared.Authorization
 {
     public static class TUFAction
-    { 
+    {
         public const string View = nameof(View);
         public const string Search = nameof(Search);
         public const string Create = nameof(Create);
@@ -31,5 +31,6 @@ namespace TUF.Shared.Identitys
         public const string RoleClaims = nameof(RoleClaims);
         public const string Products = nameof(Products);
         public const string Brands = nameof(Brands);
+        public const string TEST = nameof(TEST);
     }
 }

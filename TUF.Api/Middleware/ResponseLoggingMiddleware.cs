@@ -27,10 +27,10 @@ namespace TUF.Api.Middleware
 
             string email = _currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
             var userId = _currentUser.GetUserId();
-            string tenant = _currentUser.GetTenant() ?? string.Empty;
+            //string tenant = _currentUser.GetTenant() ?? string.Empty;
             if (userId != Guid.Empty) LogContext.PushProperty("UserId", userId);
             LogContext.PushProperty("UserEmail", email);
-            if (!string.IsNullOrEmpty(tenant)) LogContext.PushProperty("Tenant", tenant);
+            //if (!string.IsNullOrEmpty(tenant)) LogContext.PushProperty("Tenant", tenant);
             LogContext.PushProperty("StatusCode", httpContext.Response.StatusCode);
             LogContext.PushProperty("ResponseTimeUTC", DateTime.UtcNow);
             Log.ForContext("ResponseHeaders", httpContext.Response.Headers.ToDictionary(h => h.Key, h => h.Value.ToString()), destructureObjects: true)
