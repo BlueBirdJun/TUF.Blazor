@@ -10,6 +10,7 @@
 	  <PackageReference Include="Finbuckle.MultiTenant" Version="6.9.1" />
 	  <PackageReference Include="Finbuckle.MultiTenant.AspNetCore" Version="6.9.1" />
 	  <PackageReference Include="FluentValidation" Version="11.4.0" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.2" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
 	  <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
@@ -53,7 +54,8 @@
 	  <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.1.0" />
 	  <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
 	  <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
-	  
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
   </ItemGroup>
 	
 </Project>

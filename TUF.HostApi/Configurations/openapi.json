@@ -1,0 +1,14 @@
+{
+  "SwaggerSettings": {
+    "Enable": true,
+    "Title": ".NET 7.0 WebAPI - TUF API",
+    "Version": "v1",
+    "Description": "언제가 써먹을 Framework.",
+    "ContactName": "김광일",
+    "ContactEmail": "kki2020@daum.net",
+    "ContactUrl": "",
+    "License": true,
+    "LicenseName": "MIT License",
+    "LicenseUrl": ""
+  }
+}

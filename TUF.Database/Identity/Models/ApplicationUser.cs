@@ -10,6 +10,7 @@ namespace TUF.Database.Identity.Models
 {
     public class ApplicationUser : IdentityUser
     {
+
         public string? FirstName { get; set; } = default;
         public string? LastName { get; set; } = default;
         //public byte[] ProfilePicture { get; set; } = default;

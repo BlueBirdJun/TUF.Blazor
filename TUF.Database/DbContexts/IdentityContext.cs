@@ -55,6 +55,8 @@ public class IdentityContext : IdentityDbContext<ApplicationUser>
             entity.ToTable("UserTokens");
         });
 
+        
+
         builder.Entity<SiteLogs>(entity =>
         {
             entity.ToTable(name: "SiteLogs");

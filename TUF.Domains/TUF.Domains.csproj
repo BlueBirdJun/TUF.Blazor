@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TUF.Common\Daniel.Common.csproj" />
     <ProjectReference Include="..\TUF.Nugets\TUF.Nugets.csproj" />
+    <ProjectReference Include="..\TUF.Shared\TUF.Shared.csproj" />
   </ItemGroup>
 
 </Project>

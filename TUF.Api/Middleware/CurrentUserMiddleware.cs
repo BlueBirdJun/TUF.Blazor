@@ -1,4 +1,6 @@
-﻿namespace TUF.Api.Middleware
+﻿using System.Security.Claims;
+
+namespace TUF.Api.Middleware
 {
     public class CurrentUserMiddleware: IMiddleware
     {
@@ -10,7 +12,8 @@
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             _currentUserInitializer.SetCurrentUser(context.User);
-
+            //context.User.Identitie
+            //var ccc= context.User.FindFirstValue(ClaimTypes.Name);
             await next(context);
         }
     }

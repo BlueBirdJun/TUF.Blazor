@@ -7,8 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Application.Identity.Tokens;
+namespace TUF.Infrastructure.Identity.Tokens;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Email">kki2020@daum.net</param>
+/// <param name="Password">abcde123</param>
 public record TokenRequest(string Email, string Password);
 
 public class TokenRequestValidator : CustomValidator<TokenRequest>

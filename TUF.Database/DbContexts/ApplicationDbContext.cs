@@ -14,13 +14,14 @@ namespace TUF.Database.DbContexts
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         private readonly IDateTimeService _dateTime;
-        private readonly IAuthenticatedUserService _authenticatedUser;
+        //private readonly IAuthenticatedUserService _authenticatedUser;
         public IDbConnection Connection => Database.GetDbConnection();
         public bool HasChanges => ChangeTracker.HasChanges();
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,IDateTimeService dateTime) : base(options)
+        //, IAuthenticatedUserService authenticatedUser) : base(options)
         {
             _dateTime = dateTime;
-            _authenticatedUser = authenticatedUser;
+            //_authenticatedUser = authenticatedUser;
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

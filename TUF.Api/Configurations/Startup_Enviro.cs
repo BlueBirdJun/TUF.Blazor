@@ -10,18 +10,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Security.Claims;
+using System.Text;
+using TUF.Api.Authentication;
 using TUF.Api.Middleware;
 using TUF.Database.DbContexts;
 using TUF.Database.Identity.Models;
 
 using TUF.Infrastructure.Auth.Jwt;
 using TUF.Infrastructure.Auth.Permissions;
+using TUF.Infrastructure.Caching;
+using TUF.Infrastructure.OpenApi;
+using TUF.Infrastructure.SecurityHeaders;
 using TUF.Shared.Services;
 
 namespace TUF.Api.Configurations;
 
-public static partial class Startup
+internal static partial class Startup
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
@@ -35,14 +42,14 @@ public static partial class Startup
     builder
     .UseRequestLocalization()
     .UseStaticFiles()
-    //.UseSecurityHeaders(config)
+    .UseSecurityHeaders(config)
     //.UseFileStorage()
     //.UseExceptionMiddleware()
     .UseHttpsRedirection()
     .UseRouting()
     .UseCorsPolicy()
     .UseAuthentication()
-    //.UseCurrentUser()
+    .UseCurrentUser()
     //.UseMultiTenancy()
     .UseAuthorization()
     .UseRequestLogging(config)
@@ -62,7 +69,7 @@ public static partial class Startup
             .ServiceResist(config)
             .AddAuth(config)
             //.AddBackgroundJobs(config)
-            //.AddCaching(config)
+            .AddCaching(config)
             //.AddCorsPolicy(config)
             //.AddExceptionMiddleware()
             //.AddHealthChecks()
@@ -75,7 +82,8 @@ public static partial class Startup
             //.AddPersistence(config)
             .AddRequestLogging(config)
             .AddRouting(options => options.LowercaseUrls = true);
-        //.AddServices();
+            //.AddFluentValidationRulesToSwagger();
+            //.AddServices();
     }
 
     internal static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app) =>
@@ -129,7 +137,9 @@ public static partial class Startup
             //options.Password.RequireDigit = false;
             //options.Password.req = false;
             options.User.AllowedUserNameCharacters = null;
-        }).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
+        })//.AddRoles<IdentityRole>()
+         .AddEntityFrameworkStores<IdentityContext>()
+        .AddDefaultTokenProviders();
     }
 
     private static IServiceCollection AddCurrentUser(this IServiceCollection services) =>
@@ -147,16 +157,32 @@ public static partial class Startup
 
         services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtBearerOptions>();
 
+        var c= config.GetSection("SecuritySettings:JwtSettings:key").Value;
+        byte[] key = Encoding.ASCII.GetBytes(c);
+
         return services
             .AddAuthentication(authentication =>
             {
                 authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null!)
-            .Services;
-        
-        
+            .AddJwtBearer(o =>
+            {
+                o.RequireHttpsMetadata = false;
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    RoleClaimType = ClaimTypes.Role,
+                    ClockSkew = TimeSpan.Zero
+                };
+            })
+            //.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null!)
+            .Services; 
     }
 
     private static IServiceCollection AddPermissions(this IServiceCollection services) =>

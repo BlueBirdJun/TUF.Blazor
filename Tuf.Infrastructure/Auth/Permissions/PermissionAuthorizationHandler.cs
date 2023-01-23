@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TUF.Application.Identity.Users;
+using TUF.Infrastructure.Identity.Users;
 using TUF.Shared.Authorization;
 
 namespace TUF.Infrastructure.Auth.Permissions;

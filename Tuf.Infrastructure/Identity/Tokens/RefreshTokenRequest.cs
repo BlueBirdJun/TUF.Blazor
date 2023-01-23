@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Application.Identity.Tokens;
+namespace TUF.Infrastructure.Identity.Tokens;
 
 public record RefreshTokenRequest(string Token, string RefreshToken);

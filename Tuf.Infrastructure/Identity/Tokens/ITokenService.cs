@@ -18,7 +18,7 @@ using TUF.Infrastructure.Auth;
 using TUF.Infrastructure.Auth.Jwt;
 using TUF.Shared.Authorization;
 
-namespace TUF.Application.Identity.Tokens;
+namespace TUF.Infrastructure.Identity.Tokens;
 
 public interface ITokenService : ITransient
 {

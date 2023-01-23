@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TUF.Shared.Events;
+
+namespace TUF.Domains.Common.Contracts;
+
+public abstract class DomainEvent : IEvent
+{
+    public DateTime TriggeredOn { get; protected set; } = DateTime.UtcNow;
+}

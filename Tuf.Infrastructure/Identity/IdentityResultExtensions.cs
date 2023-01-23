@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TUF.Application.Identity;
+namespace TUF.Infrastructure.Identity;
 
 internal static class IdentityResultExtensions
 {

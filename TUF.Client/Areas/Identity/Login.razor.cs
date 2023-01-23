@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using TUF.Client.Components.Common;
+using TUF.Client.Components.Member;
 using TUF.Client.Services;
+using TUF.Client.Shared;
 using TUF.Shared.Dtos;
 
 namespace TUF.Client.Areas.Identity;
@@ -62,7 +64,14 @@ public partial class Login
             _passwordVisibility = true;
             _passwordInputIcon = Icons.Material.Filled.Visibility;
             _passwordInput = InputType.Text;
-        }
+        } 
+    }
 
+    private async Task ShowCreateUser()
+    {
+        DialogService.ShowModal<CreateUser>(null);
+
+        //var dialog = DialogService.ShowModa)
+        Snackbar.Add("ff", Severity.Warning);
     }
 }
