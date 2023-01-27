@@ -1,0 +1,6 @@
+<?xml-stylesheet type="text/css" href="../../css/common.css"?>
+
+<svg class="svg_user_person" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path class="svg_user_person_path_01" fill-rule="evenodd" clip-rule="evenodd" d="M13 5C13 7.20914 11.2091 9 9 9C6.79086 9 5 7.20914 5 5C5 2.79086 6.79086 1 9 1C11.2091 1 13 2.79086 13 5ZM11 5C11 6.10457 10.1046 7 9 7C7.89543 7 7 6.10457 7 5C7 3.89543 7.89543 3 9 3C10.1046 3 11 3.89543 11 5Z" fill="#1B1E25"/>
+<path class="svg_user_person_path_02" fill-rule="evenodd" clip-rule="evenodd" d="M6.33333 10C3.9401 10 2 11.9401 2 14.3333C2 15.8061 3.19391 17 4.66667 17H13.3333C14.8061 17 16 15.8061 16 14.3333C16 11.9401 14.0599 10 11.6667 10H6.33333ZM4 14.3333C4 13.0447 5.04467 12 6.33333 12H11.6667C12.9553 12 14 13.0447 14 14.3333C14 14.7015 13.7015 15 13.3333 15H4.66667C4.29848 15 4 14.7015 4 14.3333Z" fill="#1B1E25"/>
+</svg>

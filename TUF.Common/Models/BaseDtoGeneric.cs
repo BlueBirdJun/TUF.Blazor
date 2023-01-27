@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Knus.Common.Models
 {
+
     public class BaseDtoGeneric<T, S> : IResultModelGeneric<T, S>
     {
         public BaseDtoGeneric()

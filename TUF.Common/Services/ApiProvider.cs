@@ -1,4 +1,7 @@
-﻿using Knus.Common.Helpers;
+﻿using Daniel.Common;
+using Daniel.Common.Models;
+using Knus.Common.Helpers;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -13,23 +16,26 @@ namespace Knus.Common.Services
 {
     public class ApiProvider<T> : IApiProvider<T>
     {
+
         #region field
         private readonly TimeSpan _timeout;
         private HttpClient _httpClient;
         private HttpClientHandler _httpClientHandler;
         //private readonly string _baseUrl;
-        private const string ClientUserAgent = "knus-api-client-v1";
+        private const string ClientUserAgent = "tuf-api-client-v1";
         private const string MediaTypeJson = "application/json";
         #endregion
 
         #region public field       
+        public ApiMetaData Apimeta { get; set; }
+        public string BaseAddress {get;set;}
         public string SendValue { get; set; }
         public string ParameterValue { get; set; }
 
         public bool Debug { get; set; } = false;
 
-        public string QueryPath { get; set; }
-        public HttpMethods HttpMethodValue { get; set; }
+        //public string QueryPath { get; set; }
+        //public HttpMethods HttpMethodValue { get; set; }
         #endregion
 
         public ApiProvider()
@@ -40,7 +46,7 @@ namespace Knus.Common.Services
         private Uri GetUrl()
         {
             string strurl = "";
-            if (!this.QueryPath.IsNullOrEmpty())
+            if (!this.Apimeta.UrlPath.IsNullOrEmpty())
                 strurl += this.ParameterValue;
             Uri sendurl = new Uri(strurl);
             return sendurl;
@@ -67,20 +73,22 @@ namespace Knus.Common.Services
         }
         private void CreateHttpClient()
         {
-            _httpClientHandler = new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            };
+            _httpClientHandler = new HttpClientHandler();
+            //{
+            //    AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            //};
             _httpClient = new HttpClient(_httpClientHandler, false)
             {
                 Timeout = _timeout
             };
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(ClientUserAgent);
 
-            if (!string.IsNullOrWhiteSpace(""))
-            {
-                _httpClient.BaseAddress = new Uri("");
-            }
+            _httpClient.BaseAddress = new Uri(BaseAddress);
+
+            //if (!string.IsNullOrWhiteSpace(""))
+            //{
+                
+            //}
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeJson));
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "");
@@ -94,15 +102,15 @@ namespace Knus.Common.Services
             string content = string.Empty;
             if (!this.SendValue.IsNullOrEmpty())
                 content = SendValue;
-            Uri sendurl = new Uri(""+  this.QueryPath);
-            
+            //Uri sendurl = new Uri(""+  this.QueryPath);
+            Uri sendurl = new Uri(BaseAddress.EndsWith("/") ? BaseAddress : BaseAddress + this.Apimeta.UrlPath);
 
             var uriBuilder = new UriBuilder(sendurl);
             Uri finalUrl = uriBuilder.Uri;
             var request = new HttpRequestMessage()
             {
                 RequestUri = finalUrl,
-                Method = new HttpMethod(this.HttpMethodValue.ToString())
+                Method = new HttpMethod(this.Apimeta.httpmethod.ToString())
             };
 
             if (content.Length > 0)
@@ -122,7 +130,7 @@ namespace Knus.Common.Services
             {
                 EnsureHttpClientCreated();
 
-                switch (this.HttpMethodValue)
+                switch (this.Apimeta.httpmethod)
                 {
                     case HttpMethods.GET:
                         using (var response = await _httpClient.GetAsync(GetUrl()))
@@ -194,7 +202,7 @@ namespace Knus.Common.Services
             {
                 //_baseUrl = PathValue;
                 EnsureHttpClientCreated();
-                switch (this.HttpMethodValue)
+                switch (this.Apimeta.httpmethod)
                 {
                     case HttpMethods.GET:
                         using (var response = await _httpClient.GetAsync(GetUrl()))
@@ -262,7 +270,7 @@ namespace Knus.Common.Services
                         }
                         break;
                     case HttpMethods.DELETE:
-                        using (var response = await _httpClient.DeleteAsync(this.QueryPath))
+                        using (var response = await _httpClient.DeleteAsync(this.Apimeta.UrlPath))
                         {
                             _data.StatusCode = response.StatusCode;
                             _data.HttpCode = response.StatusCode.ToString();

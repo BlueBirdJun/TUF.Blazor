@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿ 
 
-namespace TUF.Infrastructure.Cors
+namespace TUF.Infrastructure.Cors;
+
+public class CorsSettings
 {
-    internal class CorsSettings
-    {
-    }
+    public string? Angular { get; set; }
+    public string? Blazor { get; set; }
+    public string? React { get; set; }
 }

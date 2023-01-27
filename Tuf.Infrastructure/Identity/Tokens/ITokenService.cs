@@ -1,4 +1,5 @@
 ﻿using Daniel.Common.Interfaces;
+using Hangfire.States;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -17,12 +18,14 @@ using TUF.Domains.Common.Exceptions;
 using TUF.Infrastructure.Auth;
 using TUF.Infrastructure.Auth.Jwt;
 using TUF.Shared.Authorization;
+using TUF.Shared.Dtos;
 
 namespace TUF.Infrastructure.Identity.Tokens;
 
 public interface ITokenService : ITransient
 {
     Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken);
+    Task<TokenResponse> LoginTokenAsync(LoginDto.Request request, string ipAddress);
 
     Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request, string ipAddress);
 }
@@ -155,4 +158,23 @@ internal class TokenService : ITokenService
         return new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256);
     }
 
+    public async Task<TokenResponse> LoginTokenAsync(LoginDto.Request request, string ipAddress)
+    {
+        if (await _userManager.FindByNameAsync(request.UserId.Trim().Normalize()) is not { } user
+            || !await _userManager.CheckPasswordAsync(user, request.Password))
+        {
+            throw new UnauthorizedException("Authentication Failed.");
+        }
+        if (!user.IsActive.Value)
+        {
+            throw new UnauthorizedException("User Not Active. Please contact the administrator.");
+        }
+        if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
+        {
+            throw new UnauthorizedException("E-Mail not confirmed.");
+        }
+        return await GenerateTokensAndUpdateUser(user, ipAddress);
+
+        
+    }
 }

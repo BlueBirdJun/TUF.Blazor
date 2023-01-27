@@ -1,6 +1,9 @@
 ﻿using NSwag.Annotations;
+using System.Threading;
+using TUF.Domains.Common.Exceptions;
 using TUF.HostApi.Authentication;
 using TUF.Infrastructure.Identity.Tokens;
+using TUF.Shared.Dtos;
 
 namespace TUF.HostApi.Controllers.Identity;
 
@@ -38,6 +41,40 @@ public class TokensController : VersionNeutralApiController
     {
         return _tokenService.GetTokenAsync(request, GetIpAddress(), cancellationToken);
     }
+
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("Login")]
+    public async Task<LoginDto.Response> LoginToken([FromBody] LoginDto.Request data)
+    {
+        LoginDto.Response rt = new();
+        try
+        { 
+            var rt1 = await _tokenService.LoginTokenAsync(data, GetIpAddress());
+            rt.Success = true;
+            rt.Message = "성공";
+            rt.Token =rt1.Token;
+            rt.RefreshToken = rt1.Token;
+            rt.RefreshTokenExpiryTime = rt1.RefreshTokenExpiryTime;
+        }
+        catch (UnauthorizedException uex)
+        {
+            switch(uex.Message)
+            {
+                case "Authentication Failed.":
+                    rt.Message = "계정정보꽝";
+                    break;
+                case "User Not Active. Please contact the administrator.":
+                    rt.Message = "관리자가 승인안함";
+                    break;
+                case "E-Mail not confirmed.":
+                    rt.Message = "email 승인안남";
+                    break;
+            }
+        }  
+        return rt;
+    }
+
 
     [HttpPost("refresh")]
     [AllowAnonymous]

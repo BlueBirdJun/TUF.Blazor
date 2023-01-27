@@ -9,9 +9,7 @@
 
 <div class="fsh-center-text">
     <MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
-    <MudText>
-        안녕
-    </MudText>
+    
 </div>
 
 <EditForm Model="@loginModel" OnValidSubmit="SubmitAsync">
@@ -30,10 +28,10 @@
         
 
         <MudItem xs="12" md="6">
-            <MudButton StartIcon="@Icons.Filled.AppRegistration" @onclick="ShowCreateUser" >등록</MudButton>
+            <MudButton StartIcon="@Icons.Filled.AppRegistration" Link="/notice">등록</MudButton>
         </MudItem>
         <MudItem xs="12" md="6">
-            <MudButton StartIcon="@Icons.Filled.LockReset" Link="/account/forgot-password">비번찾기</MudButton>
+            <MudButton StartIcon="@Icons.Filled.LockReset" Link="/forgotpassword">비번찾기</MudButton>
         </MudItem>
         <MudItem xs="12" Class="d-flex justify-center">
             <MudButton ButtonType="ButtonType.Submit" Disabled="BusySubmitting" Variant="Variant.Filled"

@@ -19,6 +19,8 @@ using TUF.Infrastructure.Auth.Permissions;
 using TUF.Infrastructure.Caching;
 using TUF.Infrastructure.OpenApi;
 using TUF.Infrastructure.SecurityHeaders;
+using TUF.Infrastructure.Cors;
+
 using TUF.Shared.Authorization;
 using TUF.Shared.Services;
 
@@ -45,6 +47,7 @@ internal static partial class Startup
             .AddApiVersioning()
             .ServiceResist(config)
             .AddCaching(config)
+            .AddCorsPolicy(config)
             .AddOpenApiDocumentation(config)
             .AddAuth(config)
             .AddRouting(options => options.LowercaseUrls = true);
@@ -110,7 +113,7 @@ internal static partial class Startup
    //.UseExceptionMiddleware()
    .UseHttpsRedirection()
    .UseRouting()
-   //.UseCorsPolicy()
+   .UseCorsPolicy()
    .UseAuthentication()
    .UseAuthorization()       
    .UseCurrentUser()

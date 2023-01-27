@@ -1,15 +1,21 @@
-﻿@page "/"
-@attribute [AllowAnonymous]
+﻿@page "/home"
+@page "/"
+
+
 @inject IApiLogic _apiLogic
-@inject ILocalStorageService _localStorageService;
+
 <MudContainer>
     <MudGrid>
-
-        <h1>Hello, world!</h1>
-        Welcome to your new app.        
-        <button type="button" @onclick="GetProfile" class="nav-link btn btn-link">Log out</button>
-        <h2>@mes</h2>
-
+        <MudItem xs="12" sm="12" md="12">
+            <div class="d-flex justify-center mt-4">
+                <img src="full-stack-hero-logo.png" Style="height:250px" />
+            </div>
+        </MudItem>
+            <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">fullstackhero's</MudText>
+             <MudText Align="Align.Center" Typo="Typo.h4">"Blazor WebAssembly Boilerplate"</MudText>
+        </MudItem>
+      
      </MudGrid>
 </MudContainer>
 <PageTitle>Index</PageTitle>

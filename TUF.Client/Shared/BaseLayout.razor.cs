@@ -1,4 +1,5 @@
 ﻿using MudBlazor;
+using TUF.Client.Infrastructure;
 
 namespace TUF.Client.Shared;
 
@@ -6,21 +7,14 @@ public partial class BaseLayout
 {
     private bool _themeDrawerOpen;
     private bool _rightToLeft;
+    private MudTheme _currentTheme = new DarkTheme();
     protected override async Task OnInitializedAsync()
-    {     
-
-        //Snackbar.Add("Like this boilerplate? ", Severity.Normal, config =>
-        //{
-        //    config.BackgroundBlurred = true;
-        //    config.Icon = Icons.Custom.Brands.GitHub;
-        //    config.Action = "Star us on Github!";
-        //    config.ActionColor = Color.Primary;
-        //    config.Onclick = snackbar =>
-        //    {
-        //        //Navigation.NavigateTo("https://github.com/fullstackhero/blazor-wasm-boilerplate");
-        //        return Task.CompletedTask;
-        //    };
-        //});
+    {
+        SetCurrentTheme();
     }
+    private void SetCurrentTheme()
+    {
 
+        _rightToLeft = false;
+    }
 }

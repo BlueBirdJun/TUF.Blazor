@@ -21,8 +21,13 @@
 @using TUF.Client.Components.Common
 
 @attribute [Authorize]
+@inject IConfiguration Config
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 @inject IConfiguration Config
+@inject ILocalStorageService _localStorageService
+@inject AuthenticationStateProvider _authStateProvider
+@inject IJSRuntime _js
+@inject HttpClient Http

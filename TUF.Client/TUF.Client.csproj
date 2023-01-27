@@ -14,10 +14,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;8602;8604;8632;1591;8603;1998;8618;1998;8601;CS8602;CS0168;CS8618;CS8601;CS0618</NoWarn>
   </PropertyGroup>
-	<ItemGroup>
-		
-		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
-		
+	<ItemGroup>		
+		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />		
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.2" />
@@ -37,6 +35,16 @@
 
   <ItemGroup>
     <Folder Include="Components\ThemeManager\" />
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

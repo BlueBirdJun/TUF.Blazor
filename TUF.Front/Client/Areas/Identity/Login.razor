@@ -1,0 +1,87 @@
+﻿@page "/login"
+@attribute [AllowAnonymous]
+
+
+
+<div class="d-flex justify-center">
+    <img src="full-stack-hero-logo.png" Style="height:120px" />
+</div>
+
+<div class="fsh-center-text">
+    <MudText Typo="Typo.h4" GutterBottom="true">로그인</MudText>
+    
+</div>
+
+<EditForm Model="@loginModel" OnValidSubmit="SubmitAsync">
+    <MudGrid>
+        <DataAnnotationsValidator />
+        <CustomValidation @ref="_customValidation" />
+        <MudItem xs="12">
+            <MudTextField T="string" Label="Userid" Variant="Variant.Outlined" @bind-Value="loginModel.UserId"
+                          For="@(() => loginModel.UserId)" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField Label="PASSWORD" Variant="Variant.Outlined" @bind-Value="loginModel.Password"
+                          For="@(() => loginModel.Password)" InputType="@_passwordInput" Adornment="Adornment.End"
+                          AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
+        </MudItem>
+        
+
+        <MudItem xs="12" md="6">
+            <MudButton StartIcon="@Icons.Filled.AppRegistration" Link="/notice">회원가입</MudButton>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudButton StartIcon="@Icons.Filled.LockReset" Link="/forgotpassword">비번찾기</MudButton>
+        </MudItem>
+        <MudItem xs="12" Class="d-flex justify-center">
+            <MudButton ButtonType="ButtonType.Submit" Disabled="BusySubmitting" Variant="Variant.Filled"
+                       Color="Color.Primary" Size="Size.Large" StartIcon="@Icons.Filled.Login" Style="width: 100%;">로그인</MudButton>
+        </MudItem>
+        
+    </MudGrid>
+</EditForm>
+@*
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <legend>User Login</legend>
+        <div class="mb-3">
+            <label for="txtEmail" class="form-label">Email</label>
+            <input @bind="loginModel.Email" type="text" class="form-control" id="txtEmail" />
+        </div>
+
+        <div class="mb-3">
+            <label for="txtPassword" class="form-label">Password</label>
+            <input @bind="loginModel.Password" type="password" class="form-control" id="txtPassword" />
+        </div>
+        <button type="button" @onclick="UserLogin" class="btn btn-primary">Login</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div>
+            <a href="https://localhost:7235/auth/google-login?returnurl=https://localhost:7218/"
+               class="nav-link btn btn-link">
+                Google
+            </a>
+        </div>
+        <div>
+            <a href="https://localhost:7235/auth/microsoft-account-login?returnurl=https://localhost:7218/"
+               class="nav-link btn btn-link">
+                Microsoft Account
+            </a>
+        </div>
+        <div>
+            <a href="https://localhost:7235/auth/twitter-login?returnurl=https://localhost:7218/"
+               class="nav-link btn btn-link">
+                Twitter
+            </a>
+        </div>
+        <div>
+            <a href="https://localhost:7235/auth/facebook-login?returnurl=https://localhost:7218/"
+               class="nav-link btn btn-link">
+                Facebook
+            </a>
+        </div>
+    </div>
+</div>
+ *@

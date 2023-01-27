@@ -1,0 +1,38 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>@ContentText</MudText>
+    </DialogContent>
+    <DialogActions>        
+        @if(DialogKind == DialogEnum.Info )
+        {
+            <MudItem xs="12" Class="d-flex justify-center">
+            <MudButton Color="@Color.Info" Variant="Variant.Filled" OnClick="Submit">확인</MudButton>
+            </MudItem>
+        }
+        @if (DialogKind == DialogEnum.YesOrNo)
+        {
+            <MudButton Color="@Color.Success" Variant="Variant.Filled" OnClick="Submit">확인</MudButton>
+            <MudButton OnClick="Cancel">취소</MudButton>
+        }
+        @if (DialogKind == DialogEnum.DeleteOrCacnel)
+        {
+            <MudButton Color="@Color.Error" Variant="Variant.Filled" OnClick="Submit">삭제</MudButton>
+            <MudButton OnClick="Cancel">취소</MudButton>
+        }
+        
+    </DialogActions>
+
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string ContentText { get; set; }
+     
+
+    [Parameter] public DialogEnum DialogKind { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

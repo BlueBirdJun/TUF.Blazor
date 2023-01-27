@@ -1,0 +1,5 @@
+<?xml-stylesheet type="text/css" href="../../css/common.css"?>
+
+<svg class="svg_nav_next" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path class="svg_nav_next_path" fill-rule="evenodd" clip-rule="evenodd" d="M6.36396 2.63604C6.75449 2.24551 7.38765 2.24551 7.77817 2.63604L13.435 8.29289C13.8256 8.68342 13.8256 9.31658 13.435 9.70711L7.77817 15.364C7.38765 15.7545 6.75449 15.7545 6.36396 15.364C5.97344 14.9734 5.97344 14.3403 6.36396 13.9497L11.3137 9L6.36396 4.05025C5.97344 3.65973 5.97344 3.02656 6.36396 2.63604Z" fill="#1B1E25"/>
+</svg>

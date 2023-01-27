@@ -14,17 +14,17 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]) });
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services
 .AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
-
-builder.Services.AddScoped<CookieHandler>();
-
-
+builder.Services.AddAuthorizationCore();
+//builder.Services.AddScoped<CookieHandler>();
+ 
 builder.Services.AddMudServices(configuration =>
 {
     configuration.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
@@ -34,11 +34,12 @@ builder.Services.AddMudServices(configuration =>
     configuration.SnackbarConfiguration.ShowCloseIcon = false;
 });
 
-builder.Services.AddHttpClient("API", options => {
-    options.BaseAddress = new Uri("https://localhost:7008/");
-    
-})
-.AddHttpMessageHandler<CookieHandler>();
+
+builder.Services.AddHttpClient("API", options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
+});
+//.AddHttpMessageHandler<CookieHandler>();
 
 builder.Services.AddScoped<IApiLogic, ApiLogic>();
 

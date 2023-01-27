@@ -1,0 +1,33 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using TUF.Front.Client
+@using TUF.Front.Client.Shared
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Blazored.LocalStorage
+@using TUF.Front.Client.Providers
+@using TUF.Front.Client.Services
+@using TUF.Shared.Dtos
+@using TUF.Front.Client.Components.Notifications
+@using MudBlazor
+@using Microsoft.Extensions.Localization
+@using TUF.Front.Client.Components.Common
+
+@attribute [Authorize]
+@inject IConfiguration Config
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IConfiguration Config
+@inject ILocalStorageService _localStorageService
+@inject AuthenticationStateProvider _authStateProvider
+@inject IJSRuntime _js
+@inject HttpClient Http
