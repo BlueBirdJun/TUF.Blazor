@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TUF.Shared.Dtos.Member;
 
 namespace TUF.Shared.Dtos
 {
-    public class LoginDto
+    public class LoginDto : DtoBase<LoginDto.Response, LoginDto.Request>
     {
 
         public class Request {
@@ -25,12 +26,7 @@ namespace TUF.Shared.Dtos
             [Required(ErrorMessage = "비번 필수")]
             public string Password { get; set; }
         }
-        public class Response {
-            public bool Success { get; set; }
-            public string Message { get; set; }
-            public string Token { get; set; }
-            public string RefreshToken { get; set; }
-            public DateTime RefreshTokenExpiryTime { get; set; }            
-        } 
+        public record Response (string Token, string RefreshToken, DateTime RefreshTokenExpiryTime);
+
     }
 }

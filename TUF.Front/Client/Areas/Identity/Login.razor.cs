@@ -95,6 +95,8 @@ public partial class Login
         //    await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
         //    _navigationManager.NavigateTo("/", true);
         //}
+
+        ApiProvider<LoginDto> api = new ApiProvider<LoginDto>();
     }
 
     private void TogglePasswordVisibility()

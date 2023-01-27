@@ -45,17 +45,15 @@ public class TokensController : VersionNeutralApiController
     [HttpPost]
     [AllowAnonymous]
     [Route("Login")]
-    public async Task<LoginDto.Response> LoginToken([FromBody] LoginDto.Request data)
+    public async Task<LoginDto> LoginToken([FromBody] LoginDto.Request data)
     {
-        LoginDto.Response rt = new();
+        LoginDto rt = new();
         try
         { 
             var rt1 = await _tokenService.LoginTokenAsync(data, GetIpAddress());
             rt.Success = true;
             rt.Message = "성공";
-            rt.Token =rt1.Token;
-            rt.RefreshToken = rt1.Token;
-            rt.RefreshTokenExpiryTime = rt1.RefreshTokenExpiryTime;
+            rt.OutPutValue = new LoginDto.Response(rt1.Token, rt1.RefreshToken, rt1.RefreshTokenExpiryTime); 
         }
         catch (UnauthorizedException uex)
         {
