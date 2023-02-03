@@ -22,6 +22,7 @@ namespace TUF.Database.DbContexts
 
         DbSet<CommonCode> CommonCode { get; set; }
         DbSet<Board> Board { get; set; }
+        DbSet<BoardInfo> BoardInfo { get; set; }
         DbSet<BoardComment> BoardComment { get; set; }
 
     }

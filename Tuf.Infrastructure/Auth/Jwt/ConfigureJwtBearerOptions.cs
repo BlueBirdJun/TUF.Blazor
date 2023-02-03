@@ -62,6 +62,7 @@ public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions
             OnMessageReceived = context =>
             {
                 var accessToken = context.Request.Query["access_token"];
+                
 
                 if (!string.IsNullOrEmpty(accessToken) &&
                     context.HttpContext.Request.Path.StartsWithSegments("/notifications"))

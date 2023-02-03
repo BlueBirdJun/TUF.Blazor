@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -16,7 +16,9 @@
 		<NoWarn>1701;1702;8602;8604;8632;1591;8603;1998;8618;1998;8601;CS8602;CS0168;CS8618;CS8601;CS0618</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
+		<!--<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />-->
 		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+		<PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.2" />
@@ -31,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\DashBoard\" />
+    <Folder Include="Areas\Mypage\" />
     <Folder Include="Components\ThemeManager\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>

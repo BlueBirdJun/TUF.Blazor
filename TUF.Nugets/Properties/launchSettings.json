@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TUF.Nugets": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:1298;http://localhost:1299"
+    }
+  }
+}

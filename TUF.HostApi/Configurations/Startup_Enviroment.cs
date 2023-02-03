@@ -34,6 +34,7 @@ internal static partial class Startup
         return services
             .AddValidatorsFromAssembly(assembly)
             .AddMediatR(assembly);
+            //.AddAutoMapper(assembly);
     }
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
@@ -135,8 +136,8 @@ internal static partial class Startup
         return services
         .AddCurrentUser()
         .AddJwtAuth(config)
-        .AddIdentity()
-        .AddPermissions(); 
+        .AddIdentity();
+        //.AddPermissions(); 
     }
 
 
@@ -156,8 +157,23 @@ internal static partial class Startup
         var c = config.GetSection("SecuritySettings:JwtSettings:key").Value;
         byte[] key = Encoding.ASCII.GetBytes(c);
 
-        return services
-            .AddAuthentication(authentication =>
+        //return services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+        //    AddJwtBearer(options =>
+        //    {
+        //        options.TokenValidationParameters = new TokenValidationParameters
+        //        {                    
+        //            //ValidAudience = "domain.com",
+        //            ValidateIssuer = true,
+        //            ValidateAudience = false,
+        //            //ValidIssuer = "domain.com",
+        //            ValidateLifetime = true,
+        //            ValidateIssuerSigningKey = true,
+        //            ClockSkew = TimeSpan.Zero,
+        //            IssuerSigningKey = new SymmetricSecurityKey(key) // NOTE: THIS SHOULD BE A SECRET KEY NOT TO BE SHARED; A GUID IS RECOMMENDED
+        //        };
+        //    }).Services;
+
+          return services.AddAuthentication(authentication =>
             {
                 authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;

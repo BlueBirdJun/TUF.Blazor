@@ -1,1 +1,11 @@
 ﻿global using MediatR;
+global using DTO = TUF.Shared.Dtos;
+global using DB = TUF.Database.TUFDB;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using Daniel.Common.Models;
+global using TUF.Shared.Dtos.Boards;
+global using Mapster;

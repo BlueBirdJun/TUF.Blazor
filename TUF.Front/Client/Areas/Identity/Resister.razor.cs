@@ -34,9 +34,7 @@ public partial class Resister
     }
 
     protected override Task OnInitializedAsync()
-    {
-       
-
+    { 
         return base.OnInitializedAsync();
     }
 

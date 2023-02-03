@@ -8,10 +8,8 @@
 @using Microsoft.JSInterop
 @using TUF.Front.Client
 @using TUF.Front.Client.Shared
-
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
-@using Blazored.LocalStorage
 @using TUF.Front.Client.Providers
 @using TUF.Front.Client.Services
 @using TUF.Shared.Dtos
@@ -27,7 +25,5 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 @inject IConfiguration Config
-@inject ILocalStorageService _localStorageService
-@inject AuthenticationStateProvider _authStateProvider
 @inject IJSRuntime _js
-@inject HttpClient Http
+

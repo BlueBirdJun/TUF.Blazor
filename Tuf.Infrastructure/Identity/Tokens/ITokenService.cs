@@ -98,15 +98,17 @@ internal class TokenService : ITokenService
     private IEnumerable<Claim> GetClaims(ApplicationUser user, string ipAddress) =>
       new List<Claim>
       {
+            
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email),
             new(TUFClaims.FullName, $"{user.FirstName} {user.LastName}"),
-            new(ClaimTypes.Name, user.FirstName ?? string.Empty),
-            new(ClaimTypes.Surname, user.LastName ?? string.Empty),
+            new(ClaimTypes.Name, user.LastName ?? string.Empty),            
+            //new(ClaimTypes.Surname, user.LastName ?? string.Empty),
             new(TUFClaims.IpAddress, ipAddress),
             //new(TUFClaims.ProfilePicture, user.strProfilePicture),
             new(TUFClaims.NickName, user.NickName ?? string.Empty),
-            new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty),            
+            new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty),
+            new(ClaimTypes.Role, TUFRoles.Admin ?? string.Empty),
             new(TUFClaims.MemberType, user.MemberType ?? string.Empty)
       };
     private string GenerateRefreshToken()

@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+﻿//using Blazored.LocalStorage;
 using Knus.Common.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -22,10 +22,10 @@ namespace TUF.Front.Client.Areas.Identity;
 public partial class Login
 {
     [Inject]
-    public IApiLogic _apiLogic { get; set; } = default;
-    
-    [Inject]
     public NavigationManager _navigationManager { get; set; } = default;
+    [Inject]
+    JwtAuthenticationService jwtprovider { get; set; }
+
     //[Inject]
     //public ILocalStorageService _localStorageService { get; set; } = default;
     private CustomValidation? _customValidation;
@@ -96,7 +96,38 @@ public partial class Login
         //    _navigationManager.NavigateTo("/", true);
         //}
 
-        ApiProvider<LoginDto> api = new ApiProvider<LoginDto>();
+        DialogOptions disableBackdropClick = new DialogOptions() { DisableBackdropClick = true };
+        var parameters = new DialogParameters();
+        parameters.Add("DialogKind", DialogEnum.Info);
+
+        (bool succeeded, var response) =await jwtprovider.LoginAsync(loginModel);
+        if (!succeeded)
+        {
+            parameters.Add("ContentText", response);
+            DialogService.Show<CommonDialog>("로그인", parameters, disableBackdropClick);
+            return;
+        }
+        else
+        {
+            Snackbar.Add("환영해");
+            //StateHasChanged();
+            Navigation.NavigateTo("/", true);
+        }
+
+        //(bool succeeded, var response) = await iAuthenticationService.LoginAsync(loginModel);
+        //if(!succeeded)
+        //{
+        //    parameters.Add("ContentText", response);
+        //    DialogService.Show<CommonDialog>("로그인", parameters, disableBackdropClick);
+        //    return;
+        //}
+        //else
+        //{
+        //    Snackbar.Add("환영해");
+        //    //StateHasChanged();
+        //    Navigation.NavigateTo("/",true);
+        //}
+
     }
 
     private void TogglePasswordVisibility()

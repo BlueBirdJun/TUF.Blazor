@@ -34,12 +34,12 @@ builder.Services.AddControllersWithViews();//.AddFluentValidation();
 //    };
 //});
 
-builder.Services.AddMediator();
-
-
+builder.Services.AddMediator(); 
 //builder.Services.AddOpenApiDocumentation(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddPersistenceContexts(builder.Configuration);
+ 
+
 builder.Services.AddApplicationInfrastructure(builder.Configuration);
 
 var app = builder.Build();

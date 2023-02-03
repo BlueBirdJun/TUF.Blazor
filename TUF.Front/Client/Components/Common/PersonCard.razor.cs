@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
+using TUF.Shared.Authorization;
 
 namespace TUF.Front.Client.Components.Common;
 
@@ -33,9 +34,9 @@ public partial class PersonCard
         {
             if (string.IsNullOrEmpty(UserId))
             {
-                //FullName = user.GetFullName();
-                //UserId = user.GetUserId();
-                //Email = user.GetEmail();
+                FullName = user.GetFullName();
+                UserId = user.GetUserId();
+                Email = user.GetEmail();
                 //ImageUri = string.IsNullOrEmpty(user?.GetImageUrl()) ? string.Empty : (Config[ConfigNames.ApiBaseUrl] + user?.GetImageUrl());
                 StateHasChanged();
             }

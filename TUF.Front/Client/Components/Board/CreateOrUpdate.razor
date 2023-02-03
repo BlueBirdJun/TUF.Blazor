@@ -1,0 +1,30 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>작성하기</MudText>
+
+    </DialogContent>
+    <DialogActions>
+        <MudItem xs="12" Class="d-flex justify-center">
+            <MudButton Color="@Color.Info" Variant="Variant.Filled" @onclick="Submit">확인</MudButton>
+            <MudButton Color="@Color.Info" Variant="Variant.Filled">취소</MudButton>
+        </MudItem>
+    </DialogActions>
+</MudDialog>
+<MudPaper Class="pa-16 ma-2" Outlined="true" Square="true" Width="500px" Height="600px">
+
+
+</MudPaper>
+
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string ContentText { get; set; }
+
+
+    
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

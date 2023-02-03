@@ -13,7 +13,7 @@ namespace TUF.HostApi.Controllers.Test
     public class TestController : VersionedApiController
     {
         [HttpGet]
-        [MustHavePermission(TUFAction.View, TUFResource.TEST)]
+        //[MustHavePermission(TUFAction.View, TUFResource.TEST)]
         public IActionResult Get()
         {
             var ccc = HttpContext.User.FindFirstValue(ClaimTypes.Name);

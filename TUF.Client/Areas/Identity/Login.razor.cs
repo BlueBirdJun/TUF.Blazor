@@ -38,22 +38,7 @@ public partial class Login
 
     private async Task GetTest()
     {
-        CreateUserDto data = new CreateUserDto();
-        data.UserName = "안녕";
-        data.UserID = "aa";
-        data.UserEmail = "bb@da.net";
-        data.Password = "cc";
-        data.ConfirmPassword = "cc";
-        var c = await Http.PostAsJsonAsync<CreateUserDto>("/api/users/resister", data);
-        var rt=await c.Content.ReadFromJsonAsync<DtoBase<string, string>>();
-
-        DialogOptions disableBackdropClick = new DialogOptions() { DisableBackdropClick = true };
-        var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Are you sure you want to remove thisguy@emailz.com from this account?");
-        parameters.Add("ButtonText", "Yes");
-        parameters.Add("Color", Color.Success);
-
-        var r = DialogService.Show<CommonDialog>("ddd",parameters,disableBackdropClick);
+ 
 
         //Snackbar.Add(rt.Message);
         

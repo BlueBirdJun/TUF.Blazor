@@ -2,39 +2,46 @@
 @page "/"
 
 
-@inject IApiLogic _apiLogic
 
 <MudContainer>
     <MudGrid>
         <MudItem xs="12" sm="12" md="12">
             <div class="d-flex justify-center mt-4">
-                <img src="full-stack-hero-logo.png" Style="height:250px" />
+                <img src="Images/main1.jpg" Style="height:250px" />
             </div>
         </MudItem>
             <MudItem xs="12" sm="12" md="12">
-            <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">fullstackhero's</MudText>
+            <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">DonetDevel's</MudText>
              <MudText Align="Align.Center" Typo="Typo.h4">"Blazor WebAssembly Boilerplate"</MudText>
         </MudItem>
-
+        <MudItem>
+            <MudButton @onclick="(()=>GetProfile())">확인</MudButton>
+        </MudItem>
+        
      </MudGrid>
 </MudContainer>
-<PageTitle>Index</PageTitle>
+
 
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
     protected string mes = "ddd";
 
     protected override Task OnInitializedAsync()
     {
-        Snackbar.Add("오예", Severity.Info);
+        
         return base.OnInitializedAsync();
     }
 
     private async Task GetProfile()
     {
-        mes = "cccc";
-        var rsp = await _apiLogic.UserProfileAsync();
-        if (rsp.Message == "Success")
-            mes = rsp.UserProfile.FirstName;
+        var authState = await authenticationState;
+        if(authState.User.Identity.IsAuthenticated)
+        { 
+            Snackbar.Add("로그인중", Severity.Info);
+        }
+        //Snackbar.Add("버튼", Severity.Info);
     }
 }

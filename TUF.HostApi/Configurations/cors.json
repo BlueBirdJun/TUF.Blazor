@@ -1,7 +1,7 @@
 {
   "CorsSettings": {
     "Angular": "http://localhost:4200",
-    "Blazor": "https://localhost:7111",
+    "Blazor": "https://localhost:7111;http://localhost:5266",
     "React": "http://localhost:3000"
   }
 }
