@@ -161,9 +161,9 @@ internal static partial class Startup
         //    AddJwtBearer(options =>
         //    {
         //        options.TokenValidationParameters = new TokenValidationParameters
-        //        {                    
+        //        {
         //            //ValidAudience = "domain.com",
-        //            ValidateIssuer = true,
+        //            ValidateIssuer = false,
         //            ValidateAudience = false,
         //            //ValidIssuer = "domain.com",
         //            ValidateLifetime = true,
@@ -173,13 +173,13 @@ internal static partial class Startup
         //        };
         //    }).Services;
 
-          return services.AddAuthentication(authentication =>
-            {
-                authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null!)
-            .Services;
+        return services.AddAuthentication(authentication =>
+          {
+              authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+              authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+          })
+           .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null!)
+          .Services;
     }
 
 

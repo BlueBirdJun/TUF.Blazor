@@ -12,7 +12,7 @@ public partial class BaseLayout
     [Parameter]
     public EventCallback<bool> OnRightToLeftToggle { get; set; }
 
-    private MudTheme _currentTheme = new DarkTheme();
+    private MudTheme _currentTheme = new NavyTheme();
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
     protected override async Task OnInitializedAsync()

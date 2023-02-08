@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
 using TUF.Front.Client;
-using TUF.Front.Client.Providers;
+
 using TUF.Front.Client.Services;
 using Blazored.SessionStorage;
 using Blazored.LocalStorage;

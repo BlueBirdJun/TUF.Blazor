@@ -111,7 +111,7 @@ public partial class Login
         {
             Snackbar.Add("환영해");
             //StateHasChanged();
-            Navigation.NavigateTo("/", true);
+            Navigation.NavigateTo("/");
         }
 
         //(bool succeeded, var response) = await iAuthenticationService.LoginAsync(loginModel);

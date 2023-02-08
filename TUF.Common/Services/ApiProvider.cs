@@ -31,7 +31,7 @@ namespace Knus.Common.Services
         public string BaseAddress {get;set;}
         public string SendValue { get; set; }
         public string ParameterValue { get; set; }
-
+        public string JwtKey { get; set; } = "";
         public bool Debug { get; set; } = false;
 
         //public string QueryPath { get; set; }
@@ -91,7 +91,8 @@ namespace Knus.Common.Services
             //}
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeJson));
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "");
+            //_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "Bearer " + JwtKey);
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {JwtKey}");
             //string ddd = CrytoHelper.Encrypt(DateTime.Now.ToString("dd:yyyyMM knuscube"));
             //_httpClient.DefaultRequestHeaders.Add("seqkey", ddd);
 
@@ -119,6 +120,10 @@ namespace Knus.Common.Services
                                     Encoding.UTF8,
                                     "application/json");
             }
+
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", $"Bearer {JwtKey}");
+            request.Headers.Add("Authorization", $"Bearer {JwtKey}");
+            //Authorization
             return request;
         }
 
@@ -309,7 +314,7 @@ namespace Knus.Common.Services
                 _data.HasError = true;
                 _data.Success = false;
                 _data.Message = wxc.Message;
-            }
+            } 
             catch (Exception exc)
             {
                 _data.HasError = true;

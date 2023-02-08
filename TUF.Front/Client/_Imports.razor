@@ -10,7 +10,7 @@
 @using TUF.Front.Client.Shared
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
-@using TUF.Front.Client.Providers
+
 @using TUF.Front.Client.Services
 @using TUF.Shared.Dtos
 @using TUF.Front.Client.Components.Notifications
@@ -26,4 +26,5 @@
 @inject IDialogService DialogService
 @inject IConfiguration Config
 @inject IJSRuntime _js
-
+@inject ITokenService tokenservice
+@inject IApiHelper  apihelper

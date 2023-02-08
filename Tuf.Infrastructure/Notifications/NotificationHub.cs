@@ -13,7 +13,7 @@ using TUF.Domains.Common.Exceptions;
 namespace TUF.Infrastructure.Notifications;
 
 [Authorize]
-public class NotificationHub : Hub, ITransient
+public class NotificationHub : Hub//, ITransient
 {
     //private readonly ITenantInfo? _currentTenant;
     private readonly ILogger<NotificationHub> _logger;
@@ -25,8 +25,7 @@ public class NotificationHub : Hub, ITransient
     }
 
     public override async Task OnConnectedAsync()
-    {
-        
+    {    
         //await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{_currentTenant.Id}");
 
         await base.OnConnectedAsync();

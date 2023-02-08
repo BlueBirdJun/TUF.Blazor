@@ -1,20 +1,35 @@
 ﻿<MudDialog>
     <DialogContent>
         <MudText>작성하기</MudText>
+        <MudPaper Width="600px" Height="700px">
+            <EditForm Model="@boarddata" OnValidSubmit="Submitaction">
+            <MudGrid >
+                <DataAnnotationsValidator />
+                <CustomValidation @ref="_customValidation" />
+                 <MudItem xs="12" md="12">
+                        <MudTextField T="string" For="@(() => boarddata.Subject)" @bind-Value="boarddata.Subject" Label="제목" />
+                 </MudItem>
+                 <MudItem xs="12" md="12">                     
+                        <MudTextField T="string" Variant="Variant.Filled" 
+                        For="@(() => boarddata.ContentsHtml)" 
+                        @bind-Value="boarddata.ContentsHtml" Label="내용" Lines="10" />
+                 </MudItem>
 
+                    <MudItem xs="12" Class="d-flex justify-center">
+                        <MudSpacer />
+                        <MudButton Color="@Color.Info" Variant="Variant.Filled" ButtonType="ButtonType.Submit">확인</MudButton>
+                        <MudSpacer />
+                        <MudButton Color="@Color.Info" Variant="Variant.Filled" @onclick="Cancel">취소</MudButton>
+                        <MudSpacer />
+                    </MudItem>
+            </MudGrid>
+            </EditForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
-        <MudItem xs="12" Class="d-flex justify-center">
-            <MudButton Color="@Color.Info" Variant="Variant.Filled" @onclick="Submit">확인</MudButton>
-            <MudButton Color="@Color.Info" Variant="Variant.Filled">취소</MudButton>
-        </MudItem>
+    
     </DialogActions>
 </MudDialog>
-<MudPaper Class="pa-16 ma-2" Outlined="true" Square="true" Width="500px" Height="600px">
-
-
-</MudPaper>
-
 
 
 @code {

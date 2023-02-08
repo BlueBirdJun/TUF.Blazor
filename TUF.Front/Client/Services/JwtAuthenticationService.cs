@@ -39,7 +39,7 @@ public class JwtAuthenticationService : AuthenticationStateProvider
         else
         {
             //로그인 처리 
-            await CacheAuthTokens(rt.OutPutValue.Token, rt.OutPutValue.RefreshToken); 
+            await CacheAuthTokens(rt.OutPutValue.Token, rt.OutPutValue.RefreshToken,rt.OutPutValue.RefreshTokenExpiryTime); 
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
             return (true, "");
         } 
@@ -94,10 +94,11 @@ public class JwtAuthenticationService : AuthenticationStateProvider
     }
 
 
-    private async ValueTask CacheAuthTokens(string? token, string? refreshToken)
+    private async ValueTask CacheAuthTokens(string? token, string? refreshToken,DateTime refreshtime)
     {
         await _localStorage.SetItemAsync(StorageConstants.Local.AuthToken, token);
         await _localStorage.SetItemAsync(StorageConstants.Local.RefreshToken, refreshToken);
+        await _localStorage.SetItemAsync(StorageConstants.Local.refreshTokenExpiryTime, refreshtime);
     }
     private async Task ClearCacheAsync()
     {

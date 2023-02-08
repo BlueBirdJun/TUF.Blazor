@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="MediatR.Courier" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

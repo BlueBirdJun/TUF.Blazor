@@ -1,5 +1,7 @@
-﻿using Daniel.Common.Interfaces;
+﻿using Blazored.LocalStorage;
+using Daniel.Common.Interfaces;
 using Knus.Common.Services;
+using TUF.Front.Client.Common;
 using TUF.Shared.Dtos;
 
 namespace TUF.Front.Client.Services
@@ -8,16 +10,26 @@ namespace TUF.Front.Client.Services
     {
         Task<LoginDto> GetTokenAsync(LoginDto.Request request);
         Task<LoginDto> RefreshAsync(string  refreshtoken);
+
+        ValueTask<string> GetLocalToken();
     }
 
     public class TokenService:ITokenService
     {
         private readonly IConfiguration _configuration;
-
-        public TokenService(IConfiguration configuration)
+        private readonly ILocalStorageService _localStorage;
+        public TokenService(IConfiguration configuration, ILocalStorageService localStorage)
         {
             _configuration = configuration;
+            _localStorage = localStorage;
         }
+
+        public ValueTask<string> GetLocalToken()
+        {
+            var s = _localStorage.GetItemAsync<string>(StorageConstants.Local.AuthToken);
+            return s;
+        }
+
         public async Task<LoginDto> GetTokenAsync(LoginDto.Request request)
         {  
            ApiProvider<LoginDto> api = new ApiProvider<LoginDto>();

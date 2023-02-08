@@ -4,8 +4,8 @@
     <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="ml-4 my-3">Start</MudText>
 
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+    <MudNavLink Href="Main" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Main</MudNavLink>
+    
     <MudNavGroup Title="BOARD" Expanded Icon="@Icons.Filled.DeveloperBoard"  >
         <MudNavLink Href="/Board/Common" Icon="@Icons.Filled.Comment" Class="fsh-nav-child">
             기본게시판
@@ -17,4 +17,62 @@
             자유게시판
         </MudNavLink>
     </MudNavGroup>
+
+    <MudNavLink Href="Main" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Home">홈</MudNavLink>
+    <MudNavLink Href="Main" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard">대시보드</MudNavLink>
+    <MudNavLink Href="Main" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FindInPage">탐지처리</MudNavLink>
+    <MudNavGroup Title="로그&리포트" Expanded Icon="@Icons.Filled.Report">
+        <MudNavLink Href="/Board/Common" Icon="@Icons.Filled.Comment" Class="fsh-nav-child">
+            탐지 이벤트 조회
+        </MudNavLink>
+        <MudNavLink Href="/Board/Picture" Icon="@Icons.Filled.PictureInPicture" Class="fsh-nav-child">
+            사용자 이력 조회
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            탐지기 로그 조회
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            시스템 로그 조회
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            통계리포트
+        </MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="보안정책" Expanded Icon="@Icons.Filled.Policy">
+        <MudNavLink Href="/Board/Common" Icon="@Icons.Filled.Comment" Class="fsh-nav-child">
+            탐지기관리
+        </MudNavLink>
+        <MudNavLink Href="/Board/Picture" Icon="@Icons.Filled.PictureInPicture" Class="fsh-nav-child">
+            탐지정책설정
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            기준 주파수 관리
+        </MudNavLink>
+         <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+           공통 주파수대역 관리
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            비인가 무선 관리
+        </MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="시스템설정" Expanded Icon="@Icons.Filled.Settings">
+        <MudNavLink Href="/Board/Common" Icon="@Icons.Filled.Comment" Class="fsh-nav-child">
+            관리자 설정
+        </MudNavLink>
+        <MudNavLink Href="/Board/Picture" Icon="@Icons.Filled.PictureInPicture" Class="fsh-nav-child">
+            탐지그룹 설정
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            사용자 환경 설정
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            시스템 환경 설정
+        </MudNavLink>
+        <MudNavLink Href="/Board/Free" Icon="@Icons.Filled.CropFree" Class="fsh-nav-child">
+            데이터 백업
+        </MudNavLink>
+    </MudNavGroup>
+
+
+
 </MudNavMenu>

@@ -30,9 +30,9 @@
         </MudPaper>
     </MudItem>
     <MudItem xs="6">
-        <MudButton Variant="Variant.Outlined">작성하기</MudButton>
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary">Primary</MudButton>
-        <MudButton Variant="Variant.Outlined" Color="Color.Secondary">Secondary</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary">검색하기</MudButton>
+        <MudButton Variant="Variant.Outlined" @onclick="WiteButton">작성하기</MudButton>
+        
      </MudItem>
     <MudItem xs="12">
      <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Style="@(fixedheader?"height:300px;":"")">

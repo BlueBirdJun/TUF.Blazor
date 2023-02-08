@@ -1,7 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Mapster;
+using MediatR.Courier;
+using System.Diagnostics.Metrics;
+using testcon;
 
 Console.WriteLine("Hello, World!");
+ICourier ic;
+
+//ic.Subscribe<>
+
+InstantCls1 i1 = new InstantCls1();
+InstantCls2 i2 = new InstantCls2();
+
+i1.Test1();
+i2.Test1();
+
+return;
 
 T1 t1 = new T1()
 {
