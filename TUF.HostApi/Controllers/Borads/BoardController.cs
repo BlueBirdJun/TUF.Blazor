@@ -21,7 +21,6 @@ public class BoardController : VersionNeutralApiController
         try
         {
             GetBoardInfoHandler.Query data = new GetBoardInfoHandler.Query();
-
             var rtdata = await Mediator.Send(data);
             if(rtdata.Success)
             {

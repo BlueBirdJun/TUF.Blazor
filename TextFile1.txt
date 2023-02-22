@@ -9,6 +9,8 @@ add-migration initialIdentity1 -context IdentityContext
 
 add-migration initial2 -context ApplicationDbContext
 
+add-migration initial1 -context TenantDbContext
+
 add-migration initial67 -context ApplicationDbContext
 add-migration initialIdentity1 -context IdentityContext
 
@@ -17,7 +19,7 @@ add-migration initialIdentity1 -context IdentityContext
 add-migration initial2 -context ApplicationDbContext
 add-migration initialIdentity1 -context IdentityContext
 add-migration initialIdentity1 -context IdentityContext
-
+update-database -context TenantDbContext
 update-database -context IdentityContext
 update-database -context ApplicationDbContext
 

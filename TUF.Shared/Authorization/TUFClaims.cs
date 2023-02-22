@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace TUF.Shared.Authorization;
 
 public static class TUFClaims
-{
-
+{ 
     public const string FirstName = "FirstName";
     public const string LastName = "LastName";
     public const string FullName = "FullName";
@@ -23,5 +22,5 @@ public static class TUFClaims
     public const string Expiration = "Expiration";
     public const string IpAddress = "IpAddress";
     public const string Permission = "permission";
-
+    public const string Tenant = "tenant";
 }

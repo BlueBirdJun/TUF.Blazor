@@ -12,6 +12,7 @@ namespace TUF.Front.Client.Services
         Task<LoginDto> RefreshAsync(string  refreshtoken);
 
         ValueTask<string> GetLocalToken();
+        string SyncGetLocalToken();
     }
 
     public class TokenService:ITokenService
@@ -27,6 +28,12 @@ namespace TUF.Front.Client.Services
         public ValueTask<string> GetLocalToken()
         {
             var s = _localStorage.GetItemAsync<string>(StorageConstants.Local.AuthToken);
+            return s;
+        }
+
+        public string SyncGetLocalToken()
+        {
+            var s = _localStorage.GetItemAsync<string>(StorageConstants.Local.AuthToken).GetAwaiter().GetResult();
             return s;
         }
 

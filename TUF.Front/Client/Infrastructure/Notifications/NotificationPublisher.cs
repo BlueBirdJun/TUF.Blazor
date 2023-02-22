@@ -2,12 +2,9 @@
 using MediatR;
 using TUF.Shared.Notification;
 
-namespace TUF.Front.Client.Infrastructure;
+namespace TUF.Front.Client.Infrastructure.Notifications;
 
-public interface INotificationPublisher
-{
-    Task PublishAsync(INotificationMessage notification);
-}
+ 
 public class NotificationPublisher : INotificationPublisher
 {
     private readonly ILogger<NotificationPublisher> _logger;

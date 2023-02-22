@@ -23,6 +23,14 @@ using TUF.Infrastructure.Cors;
 
 using TUF.Shared.Authorization;
 using TUF.Shared.Services;
+using TUF.Infrastructure.Notifications;
+using Microsoft.Extensions.DependencyInjection;
+using TUF.Database.TUFDB;
+using TUF.Application.Multitenancy;
+using Microsoft.Extensions.Primitives;
+using TUF.Infrastructure.Multitenancy;
+using Autofac.Core;
+using Finbuckle.MultiTenant;
 
 namespace TUF.HostApi.Configurations;
 
@@ -43,14 +51,15 @@ internal static partial class Startup
         services.AddTransient<ICrytoManager, CrytoManager>();
         services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();     
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
         return services
             .AddApiVersioning()
             .ServiceResist(config)
             .AddCaching(config)
+            .AddHealthCheck()
             .AddCorsPolicy(config)
             .AddOpenApiDocumentation(config)
             .AddAuth(config)
+            .AddNotifications(config)
             .AddRouting(options => options.LowercaseUrls = true);
     }
 
@@ -65,44 +74,35 @@ internal static partial class Startup
             configuration.GetSection("DatabaseSettings:ApplicationConnection").Value)
         , ServiceLifetime.Transient);
 
-        //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-        //{
-        //    options.SignIn.RequireConfirmedAccount = false;
-        //    options.Password.RequireNonAlphanumeric = false;
-        //    options.Password.RequiredLength = 4;
-        //    options.Password.RequireUppercase = false;
-        //    options.Password.RequireLowercase = false;
-        //    //options.Password.RequireNonAlphanumeric = true;
-        //    options.Password.RequiredUniqueChars = 1;
-        //    options.Password.RequireDigit = false;
-        //    //options.SignIn.RequireConfirmedAccount = false;
-        //    //options.Password.RequireNonAlphanumeric = true;
-        //    //options.Password.RequiredLength = 6;                
-        //    //options.Password.RequireUppercase = false;
-        //    //options.Password.RequireLowercase = false;
-        //    ////options.Password.RequireNonAlphanumeric = true;
-        //    //options.Password.RequiredUniqueChars = 1;
-        //    //options.Password.RequireDigit = false;
-        //    //options.Password.req = false;
-        //    options.User.AllowedUserNameCharacters = null;
-        //})//.AddRoles<IdentityRole>()
-        // .AddEntityFrameworkStores<IdentityContext>();
-        //.AddDefaultTokenProviders();
+        services.AddDbContext<TenantDbContext>(options =>
+        options.UseSqlServer(
+            configuration.GetSection("DatabaseSettings:ApplicationConnection").Value)
+        , ServiceLifetime.Transient);
+        //.AddMultiTenant<TUFTenantInfo>()
+        //.WithBasePathStrategy(options => options.RebaseAspNetCorePathBase = true)
+        //.WithConfigurationStore();
+        //   .WithClaimStrategy(TUFClaims.Tenant)
+        //   .WithHeaderStrategy(MultitenancyConstants.TenantIdName)
+        //  .WithQueryStringStrategy(MultitenancyConstants.TenantIdName)
+        // .WithEFCoreStore<TenantDbContext, TUFTenantInfo>()
+        //  .Services
+        //.AddScoped<ITenantService, TenantService>();   
 
-        //services
-        //  .AddIdentity<AppUser, ApplicationRole>(options =>
-        //  {
-        //      options.Password.RequiredLength = 6;
-        //      options.Password.RequireDigit = false;
-        //      options.Password.RequireLowercase = false;
-        //      options.Password.RequireNonAlphanumeric = false;
-        //      options.Password.RequireUppercase = false;
-        //      options.User.RequireUniqueEmail = true;
-        //  })
-        //  .AddEntityFrameworkStores<IdentityContext>()
-        //  .AddDefaultTokenProviders();
-          //.Services;
+        services.AddMultiTenant<TenantInfo>()
+            .WithBasePathStrategy(options => options.RebaseAspNetCorePathBase = true)
+            .WithConfigurationStore();
     }
+
+    private static FinbuckleMultiTenantBuilder<TUFTenantInfo> WithQueryStringStrategy(this FinbuckleMultiTenantBuilder<TUFTenantInfo> builder, string queryStringKey) =>
+        builder.WithDelegateStrategy(context =>
+        {
+            if (context is not HttpContext httpContext)
+            {
+                return Task.FromResult((string?)null);
+            }
+            httpContext.Request.Query.TryGetValue(queryStringKey, out StringValues tenantIdParam);
+            return Task.FromResult((string?)tenantIdParam.ToString());
+        });
 
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
@@ -126,10 +126,13 @@ internal static partial class Startup
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
     {
         builder.MapControllers().RequireAuthorization();
-        //builder.MapHealthCheck();
+        builder.MapHealthCheck();
         //builder.MapNotifications();
         return builder;
     }
+
+    private static IEndpointConventionBuilder MapHealthCheck(this IEndpointRouteBuilder endpoints) =>
+       endpoints.MapHealthChecks("/api/health").RequireAuthorization();
 
     internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config)
     {
@@ -146,7 +149,7 @@ internal static partial class Startup
        .AddScoped<CurrentUserMiddleware>()
        .AddScoped<ICurrentUser, CurrentUser>()
        .AddScoped(sp => (ICurrentUserInitializer)sp.GetRequiredService<ICurrentUser>());
-   internal static IServiceCollection AddJwtAuth(this IServiceCollection services, IConfiguration config)
+    internal static IServiceCollection AddJwtAuth(this IServiceCollection services, IConfiguration config)
     {
         services.AddOptions<JwtSettings>()
             .BindConfiguration($"SecuritySettings:{nameof(JwtSettings)}")
@@ -181,8 +184,7 @@ internal static partial class Startup
            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null!)
           .Services;
     }
-
-
+     
     internal static IServiceCollection AddIdentity(this IServiceCollection services) =>
         services
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -208,4 +210,8 @@ internal static partial class Startup
     services
       .AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
       .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+    private static IServiceCollection AddHealthCheck(this IServiceCollection services) =>
+       services.AddHealthChecks().Services;
+
 }

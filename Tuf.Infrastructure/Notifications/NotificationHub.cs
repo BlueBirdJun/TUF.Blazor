@@ -13,32 +13,25 @@ using TUF.Domains.Common.Exceptions;
 namespace TUF.Infrastructure.Notifications;
 
 [Authorize]
-public class NotificationHub : Hub//, ITransient
+public class NotificationHub : Hub, ITransient
 {
-    //private readonly ITenantInfo? _currentTenant;
-    private readonly ILogger<NotificationHub> _logger;
+    private static readonly Dictionary<string, string> userLookup = new Dictionary<string, string>();
 
+    private readonly ILogger<NotificationHub> _logger;
     public NotificationHub( ILogger<NotificationHub> logger)
     {
-        //_currentTenant = currentTenant;
         _logger = logger;
     }
 
     public override async Task OnConnectedAsync()
-    {    
-        //await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{_currentTenant.Id}");
-
+    {
+        
         await base.OnConnectedAsync();
-
         _logger.LogInformation("A client connected to NotificationHub: {connectionId}", Context.ConnectionId);
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
-    {
-        //await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"GroupTenant-{_currentTenant!.Id}");
-
-        await base.OnDisconnectedAsync(exception);
-
+    {   await base.OnDisconnectedAsync(exception);
         _logger.LogInformation("A client disconnected from NotificationHub: {connectionId}", Context.ConnectionId);
     }
 }

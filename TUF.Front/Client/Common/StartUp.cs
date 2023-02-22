@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.Services;
-using TUF.Front.Client.Infrastructure;
+using TUF.Front.Client.Infrastructure.Notifications;
 using TUF.Front.Client.Services;
 using TUF.Front.Client.Shared;
 using TUF.Shared.Authorization;
@@ -85,7 +85,7 @@ public static class StartUp
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
         services
-           //.AddMediatR(assemblies)
+           .AddMediatR(assemblies)
            .AddCourier(assemblies)
            .AddTransient<INotificationPublisher, NotificationPublisher>();
         foreach (var eventType in assemblies
@@ -97,7 +97,6 @@ public static class StartUp
                     typeof(NotificationWrapper<>).MakeGenericType(eventType)),
                 serviceProvider => serviceProvider.GetRequiredService(typeof(MediatRCourier)));
         }
-
         return services;
     }
 
